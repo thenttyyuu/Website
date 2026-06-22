@@ -1,0 +1,18 @@
+body{
+    background-color:rgb(49, 183, 138);
+    color:antiquewhite;
+    font-family: system-ui;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+
+}
+.container{
+    text-align: center;
+    border: 1px solid rgb(77, 255, 0);
+    padding: 20;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,255,255,0.1);
+}
