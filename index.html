@@ -1,15 +1,148 @@
-<!DOCTYPE html>
+<!--
+  index.html - Personal site for Elwin
+  Plain HTML entrypoint. Sections: Hero, About, Interests, Projects, Experience, Footer
+-->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Website</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Elwin — Quietly Leading</title>
+
+  <!-- Google Font: clean sans-serif -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Hello, World!</h1>
-        <p>This is a sample website.</p>
+  <!-- Animated, reusable section divider -->
+  <div class="divider" aria-hidden>
+    <span data-text=" - - - Introduction - - - "> - - - Introduction - - - </span>
+  </div>
+
+  <!-- HERO / INTRODUCTION -->
+  <header class="hero" id="hero">
+    <div class="hero-left">
+      <h1 class="name" id="name">Elwin</h1>
+      <p class="tagline">Quietly coding. Loudly curious.</p>
+      <p class="intro">I'm a casual programmer interested in game development, machine learning, and the occasional perfect tennis serve.</p>
+
+      <div class="links">
+        <a class="weird-btn" href="https://github.com/your-username" target="_blank" rel="noopener">GitHub</a>
+        <a class="weird-btn" href="mailto:you@example.com">Email</a>
+      </div>
+
+      <!-- Small "game" gate to access sections -->
+      <div class="gate">
+        <button id="playBtn" class="weird-btn play">Play to Unlock</button>
+        <p class="gate-hint">Click the play button 5 times to unlock sections.</p>
+      </div>
     </div>
+
+    <div class="hero-right">
+      <!-- Simple interactive 3D-ish object (CSS + JS) -->
+      <div id="tesseract" class="tesseract" aria-hidden>
+        <div class="face f1"></div>
+        <div class="face f2"></div>
+        <div class="face f3"></div>
+        <div class="face f4"></div>
+        <div class="face f5"></div>
+        <div class="face f6"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="divider">
+    <span data-text=" - - - About me - - - "> - - - About me - - - About me - - - About me - - - </span>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" class="panel about">
+    <h2>About me</h2>
+    <p>Hi — I'm Elwin. I'm a casual programmer into game development and machine learning. I play tennis and enjoy hanging out with friends. I'm quiet by nature but step up to lead when it matters. I build things slowly and thoughtfully.</p>
+  </section>
+
+  <div class="divider">
+    <span data-text=" - - - Interests - - - "> - - - Interests - - - Interests - - - Interests - - - </span>
+  </div>
+
+  <!-- INTERESTS -->
+  <section id="interests" class="panel interests">
+    <h2>Interests</h2>
+    <div class="cards">
+      <article class="card" data-topic="tennis">
+        <h3>Tennis</h3>
+        <p>Quick reflexes, long rallies — I love the rhythm of the game.</p>
+        <div class="card-anim ball" aria-hidden></div>
+      </article>
+
+      <article class="card" data-topic="computers">
+        <h3>Computers</h3>
+        <p>Hardware and software tinkering — I enjoy low-level puzzles and tooling.</p>
+        <div class="card-anim circuits" aria-hidden></div>
+      </article>
+
+      <article class="card" data-topic="ml">
+        <h3>Machine Learning</h3>
+        <p>Experimenting with models and data; curious about applying ML to games.</p>
+        <div class="card-anim ml-wave" aria-hidden></div>
+      </article>
+
+      <article class="card" data-topic="games">
+        <h3>Games</h3>
+        <p>I make and play games — design, feel and simple mechanics fascinate me.</p>
+        <div class="card-anim pixel" aria-hidden></div>
+      </article>
+
+      <article class="card" data-topic="friends">
+        <h3>Hanging Out</h3>
+        <p>Low-key social time is where ideas and energy recharge.</p>
+        <div class="card-anim chat" aria-hidden></div>
+      </article>
+    </div>
+  </section>
+
+  <div class="divider">
+    <span data-text=" - - - Projects - - - "> - - - Projects - - - Projects - - - Projects - - - </span>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="panel projects locked">
+    <h2>Projects</h2>
+    <div class="cards small">
+      <article class="project-card">
+        <h3>This site</h3>
+        <p>Personal site with playful interactions.</p>
+      </article>
+      <article class="project-card">
+        <h3>2D Game</h3>
+        <p>Prototype arcade-style 2D game (placeholder).</p>
+      </article>
+      <article class="project-card">
+        <h3>Another project</h3>
+        <p>Fresh idea waiting to be built.</p>
+      </article>
+    </div>
+  </section>
+
+  <div class="divider">
+    <span> - - - Experience - - - Experience - - - Experience - - - </span>
+  </div>
+
+  <!-- PROFESSIONAL EXPERIENCE (placeholder) -->
+  <section id="experience" class="panel experience locked">
+    <h2>Professional experiences</h2>
+    <p>Coming soon — concise list of roles, highlights and links.</p>
+  </section>
+
+  <footer class="footer">
+    <h3>Let's connect</h3>
+    <p>
+      <a href="mailto:you@example.com">you@example.com</a> —
+      <a href="https://github.com/your-username" target="_blank" rel="noopener">github.com/your-username</a>
+    </p>
+  </footer>
+
+  <script src="./main.js" defer></script>
 </body>
 </html>

@@ -1,18 +1,429 @@
-body{
-    background-color:rgb(49, 183, 138);
-    color:antiquewhite;
-    font-family: system-ui;
+/* style.css - visual design and layout for Elwin's personal site */
+
+:root {
+    --bg: #071021; /* very dark */
+    --panel: #0b1220;
+
+    /* Cyberpunk neon accents */
+    --neon-green: #00ff9c;
+    --neon-blue: #00d4ff;
+    --neon-purple: #c56bff;
+
+    /* Secondary accents */
+    --navy: #0b2545;
+    --forest: #1b6b39;
+
+    --muted: #98a0b3;
+    --glass: rgba(255,255,255,0.03);
+
+    --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto,
+        'Helvetica Neue', Arial;
+}
+
+/* ==========================================================================
+   Global
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font);
+    color: #e6eef8;
+
+    /* layered dark background with soft vignette */
+    background: radial-gradient(1200px 600px at 10% 10%,
+            rgba(5, 10, 30, 0.6),
+            transparent),
+        var(--bg);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* cursor-reactive variables (updated from JS) */
+    --mx: 50;
+    --my: 50;
+}
+
+a {
+    color: var(--neon-blue);
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   Divider (scrolling repeated text that fills the viewport)
+   ========================================================================== */
+
+.divider {
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 1px solid rgba(10, 247, 251, 0.754);
+    padding: 10px 0;
+}
+
+.divider span {
+    display: inline-block;
+    font-family: var(--font);
+    color: var(--muted);
+    font-weight: 600;
+    padding-left: 2rem;
+    white-space: nowrap;
+
+    /* looped marquee */
+    animation: marquee 12s linear infinite;
+}
+
+/* repeat the content on both sides so the line stretches */
+.divider span::before,
+.divider span::after {
+    content: attr(data-text);
+    padding-left: 2rem;
+    display: inline-block;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-33.333%);
+    }
+}
+
+/* ==========================================================================
+   Hero / Introduction
+   ========================================================================== */
+
+.hero {
+    display: flex;
+    gap: 2rem;
+    padding: 3rem;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.hero-left {
+    flex: 1;
+    max-width: 720px;
+}
+
+.hero-right {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+}
 
+.name {
+    font-size: 4rem;
+    margin: 0;
+    color: var(--neon-green);
+    transition: transform 180ms ease, text-shadow 180ms ease;
 }
-.container{
-    text-align: center;
-    border: 1px solid rgb(77, 255, 0);
-    padding: 20;
+
+.name:hover {
+    transform: translateY(-6px) scale(1.03);
+    text-shadow: 0 0 12px rgba(0, 255, 156, 0.18);
+}
+
+.tagline {
+    color: var(--neon-purple);
+    margin-top: 0.4rem;
+    font-weight: 600;
+}
+
+.intro {
+    color: var(--muted);
+    max-width: 48ch;
+}
+
+/* ==========================================================================
+   Buttons & Weird shapes
+   ========================================================================== */
+
+.links {
+    margin-top: 1.25rem;
+    display: flex;
+    gap: 0.8rem;
+}
+
+.weird-btn {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    color: #071021;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-green));
+    border: none;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+
+    /* angled/alien button outline */
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+    transition: transform 0.18s ease, filter 0.18s;
+}
+
+.weird-btn:hover {
+    transform: translateY(-4px) rotate(-1deg);
+    filter: brightness(1.08);
+}
+
+.play {
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+    color: #071021;
+}
+
+.gate-hint {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+}
+
+/* ==========================================================================
+   Panels
+   ========================================================================== */
+
+.panel {
+    padding: 2rem 3rem;
+}
+
+.panel h2 {
+    color: var(--neon-blue);
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   Interests / Cards
+   ========================================================================== */
+
+.interests .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02),
+            transparent);
+    padding: 1rem;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.card h3 {
+    margin: 0 0 0.4rem 0;
+}
+
+.card p {
+    color: var(--muted);
+    margin: 0 0 0.8rem 0;
+}
+
+.card-anim {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 120px;
+    height: 120px;
+    opacity: 0.13;
+    filter: blur(6px);
+}
+
+.ball {
+    background: radial-gradient(circle at 30% 30%, #fff, var(--neon-green));
+    border-radius: 50%;
+}
+
+.circuits {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+
+.ml-wave {
+    background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+    clip-path: circle(40% at 60% 30%);
+}
+
+.pixel {
+    background: linear-gradient(90deg, #fff, var(--neon-purple));
+    image-rendering: pixelated;
+}
+
+.chat {
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+    border-radius: 6px;
+}
+
+/* ==========================================================================
+   Projects
+   ========================================================================== */
+
+.projects .cards.small {
+    display: flex;
+    gap: 1rem;
+}
+
+.project-card {
+    flex: 1;
+    padding: 1rem;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,255,255,0.1);
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
+
+/* ==========================================================================
+   Locked / Unlocked visual state
+   ========================================================================== */
+
+.locked {
+    filter: grayscale(0.3) blur(0.6px);
+    transition: filter 0.4s ease;
+}
+
+.unlocked {
+    filter: none;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* ==========================================================================
+   Tesseract / 3D-ish cube
+   ========================================================================== */
+
+.tesseract {
+    width: 240px;
+    height: 240px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.12s linear;
+}
+
+.face {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: linear-gradient(180deg, rgba(196, 107, 255, 0.18),
+        rgba(0, 212, 255, 0.08));
+}
+
+.face.f1 {
+    transform: translateZ(40px);
+}
+
+.face.f2 {
+    transform: rotateY(90deg) translateZ(40px);
+}
+
+.face.f3 {
+    transform: rotateY(180deg) translateZ(40px);
+}
+
+.face.f4 {
+    transform: rotateY(-90deg) translateZ(40px);
+}
+
+.face.f5 {
+    transform: rotateX(90deg) translateZ(40px);
+}
+
+.face.f6 {
+    transform: rotateX(-90deg) translateZ(40px);
+}
+
+/* ==========================================================================
+   Cursor-reactive effects: updated via JS
+   ========================================================================== */
+
+.name,
+.card,
+.project-card {
+    transform-origin: center;
+}
+
+.name {
+    filter: drop-shadow(
+        calc((var(--mx) - 50) * 0.12px)
+        calc((var(--my) - 50) * 0.12px)
+        12px rgba(0, 212, 255, 0.08)
+    );
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column;
+        padding: 2rem;
+    }
+
+    .interests .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .name {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .interests .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .projects .cards.small {
+        flex-direction: column;
+    }
+
+    .name {
+        font-size: 2.4rem;
+    }
+}
+
+/* ==========================================================================
+   Focus states and subtle page-load animation
+   ========================================================================== */
+
+button:focus,
+a:focus {
+    outline: 2px solid rgba(0, 255, 156, 0.14);
+    outline-offset: 3px;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.panel,
+.hero-left {
+    animation: fadeUp 0.6s ease both;
+}
+
