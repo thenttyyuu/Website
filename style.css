@@ -88,13 +88,14 @@ a {
     display: inline-block;
 }
 
+@-webkit-keyframes marquee {
+    from { -webkit-transform: translateX(0); }
+    to { -webkit-transform: translateX(-33.333%); }
+}
+
 @keyframes marquee {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-33.333%);
-    }
+    from { transform: translateX(0); }
+    to { transform: translateX(-33.333%); }
 }
 
 /* ==========================================================================
@@ -166,12 +167,18 @@ a {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 
     /* angled/alien button outline */
+    -webkit-clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
     clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+    -webkit-box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    -webkit-transition: -webkit-transform 0.18s ease, -webkit-filter 0.18s;
     transition: transform 0.18s ease, filter 0.18s;
 }
 
 .weird-btn:hover {
+    -webkit-transform: translateY(-4px) rotate(-1deg);
     transform: translateY(-4px) rotate(-1deg);
+    -webkit-filter: brightness(1.08);
     filter: brightness(1.08);
 }
 
@@ -235,6 +242,7 @@ a {
     width: 120px;
     height: 120px;
     opacity: 0.13;
+    -webkit-filter: blur(6px);
     filter: blur(6px);
 }
 
@@ -245,16 +253,21 @@ a {
 
 .circuits {
     background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
     clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
 }
 
 .ml-wave {
     background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+    -webkit-clip-path: circle(40% at 60% 30%);
     clip-path: circle(40% at 60% 30%);
 }
 
 .pixel {
     background: linear-gradient(90deg, #fff, var(--neon-purple));
+    /* provide multiple fallbacks for pixel rendering */
+    -webkit-image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
     image-rendering: pixelated;
 }
 
@@ -312,7 +325,9 @@ a {
     width: 240px;
     height: 240px;
     position: relative;
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 0.12s linear;
     transition: transform 0.12s linear;
 }
 
@@ -326,26 +341,32 @@ a {
 }
 
 .face.f1 {
+    -webkit-transform: translateZ(40px);
     transform: translateZ(40px);
 }
 
 .face.f2 {
+    -webkit-transform: rotateY(90deg) translateZ(40px);
     transform: rotateY(90deg) translateZ(40px);
 }
 
 .face.f3 {
+    -webkit-transform: rotateY(180deg) translateZ(40px);
     transform: rotateY(180deg) translateZ(40px);
 }
 
 .face.f4 {
+    -webkit-transform: rotateY(-90deg) translateZ(40px);
     transform: rotateY(-90deg) translateZ(40px);
 }
 
 .face.f5 {
+    -webkit-transform: rotateX(90deg) translateZ(40px);
     transform: rotateX(90deg) translateZ(40px);
 }
 
 .face.f6 {
+    -webkit-transform: rotateX(-90deg) translateZ(40px);
     transform: rotateX(-90deg) translateZ(40px);
 }
 
@@ -360,6 +381,11 @@ a {
 }
 
 .name {
+    -webkit-filter: drop-shadow(
+        calc((var(--mx) - 50) * 0.12px)
+        calc((var(--my) - 50) * 0.12px)
+        12px rgba(0, 212, 255, 0.08)
+    );
     filter: drop-shadow(
         calc((var(--mx) - 50) * 0.12px)
         calc((var(--my) - 50) * 0.12px)
@@ -410,16 +436,14 @@ a:focus {
     outline-offset: 3px;
 }
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
+@-webkit-keyframes fadeUp {
+    from { opacity: 0; -webkit-transform: translateY(10px); }
+    to { opacity: 1; -webkit-transform: none; }
+}
 
-    to {
-        opacity: 1;
-        transform: none;
-    }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
 }
 
 .panel,
