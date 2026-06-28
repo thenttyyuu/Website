@@ -51,8 +51,8 @@
     document.documentElement.style.setProperty('--my', my);
 
     // rotate tesseract subtly
-    const rx = (my - 50) * -0.6; // tilt based on y
-    const ry = (mx - 50) * 0.8;  // rotate based on x
+    const rx = (my - 50) * -1; // tilt based on y
+    const ry = (mx - 50) * 1.5;  // rotate based on x
     if(tesseract) tesseract.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
   });
 

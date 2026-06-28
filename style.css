@@ -294,6 +294,35 @@ a {
 }
 
 /* ==========================================================================
+   Contact form
+   ========================================================================== */
+
+.contact-form {
+    display: grid;
+    gap: 0.7rem;
+    max-width: 640px;
+}
+
+.contact-form label {
+    font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--panel);
+    color: #e6eef8;
+    border-radius: 10px;
+    padding: 0.7rem 0.8rem;
+    font: inherit;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
    Locked / Unlocked visual state
    ========================================================================== */
 
@@ -450,4 +479,3 @@ a:focus {
 .hero-left {
     animation: fadeUp 0.6s ease both;
 }
-
