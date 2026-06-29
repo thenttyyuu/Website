@@ -62,40 +62,33 @@ a {
    ========================================================================== */
 
 .divider {
+    position: relative;
     overflow: hidden;
-    white-space: nowrap;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
     border-top: 1px solid rgba(10, 247, 251, 0.754);
     padding: 10px 0;
+    min-height: 2.5rem;
 }
 
-.divider span {
+.divider-track {
+    position: absolute;
+    inset: 50% 0 auto 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.divider-item {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: inline-block;
     font-family: var(--font);
     color: var(--muted);
     font-weight: 600;
-    padding-left: 2rem;
     white-space: nowrap;
-
-    /* looped marquee */
-    animation: marquee 12s linear infinite;
-}
-
-/* repeat the content on both sides so the line stretches */
-.divider span::before,
-.divider span::after {
-    content: attr(data-text);
-    padding-left: 2rem;
-    display: inline-block;
-}
-
-@-webkit-keyframes marquee {
-    from { -webkit-transform: translateX(0); }
-    to { -webkit-transform: translateX(-33.333%); }
-}
-
-@keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-33.333%); }
+    padding-right: 2rem;
+    will-change: transform;
 }
 
 /* ==========================================================================
