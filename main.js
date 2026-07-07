@@ -213,6 +213,7 @@
   function initInterestEffects(){
     const cards = document.querySelectorAll('.interest-card[data-effect]');
     if(!cards.length) return;
+    const visuals = document.querySelectorAll('.interest-visual');
 
     const effectDurations = {
       snowboarding: 1900,
@@ -227,6 +228,40 @@
 
     const lastTriggered = new Map();
     const timers = new WeakMap();
+
+    function syncEffectMetrics(){
+      visuals.forEach((visual) => {
+        const width = Math.max(160, visual.clientWidth);
+        const travelFull = Math.round(width + 84);
+        const travelMid = Math.round(travelFull * 0.34);
+        const travelEnd = Math.round(travelFull * 0.78);
+        const tennisTravel = Math.round(Math.max(120, width - 24));
+        const tennisMid = Math.round(tennisTravel * 0.64);
+        const robotTravel = Math.round(Math.max(170, width + 46));
+        const walkTravel = Math.round(Math.max(165, width + 38));
+        const boardWidth = Math.round(width * 0.8);
+        const pongReach = Math.max(100, boardWidth - 16);
+
+        visual.style.setProperty('--travel-full', `${travelFull}px`);
+        visual.style.setProperty('--travel-mid', `${travelMid}px`);
+        visual.style.setProperty('--travel-end', `${travelEnd}px`);
+        visual.style.setProperty('--tennis-travel', `${tennisTravel}px`);
+        visual.style.setProperty('--tennis-mid', `${tennisMid}px`);
+        visual.style.setProperty('--robot-travel', `${robotTravel}px`);
+        visual.style.setProperty('--walk-travel', `${walkTravel}px`);
+        visual.style.setProperty('--walk-quarter', `${Math.round(walkTravel * 0.25)}px`);
+        visual.style.setProperty('--walk-half', `${Math.round(walkTravel * 0.5)}px`);
+        visual.style.setProperty('--walk-three-quarter', `${Math.round(walkTravel * 0.75)}px`);
+        visual.style.setProperty('--pong-x1', `${Math.round(pongReach * 0.34)}px`);
+        visual.style.setProperty('--pong-x2', `${Math.round(pongReach * 0.7)}px`);
+        visual.style.setProperty('--pong-x3', `${Math.round(pongReach * 0.47)}px`);
+        visual.style.setProperty('--pong-x4', `${Math.round(pongReach * 0.9)}px`);
+        visual.style.setProperty('--pong-x5', `${Math.round(pongReach)}px`);
+      });
+    }
+
+    syncEffectMetrics();
+    window.addEventListener('resize', syncEffectMetrics);
 
     function trigger(card){
       const effect = card.dataset.effect;
@@ -263,184 +298,182 @@
 
   initInterestEffects();
 
-  function initMiniPlatformer(){
-    const canvas = document.getElementById('miniPlatformerCanvas');
+  function initMiniFlyGame(){
+    const canvas = document.getElementById('miniFlyCanvas');
     if(!canvas || !(canvas instanceof HTMLCanvasElement)) return;
 
     const ctx = canvas.getContext('2d');
     if(!ctx) return;
 
-    const state = {
-      x: 14,
-      y: 0,
-      w: 10,
-      h: 12,
-      vx: 0,
-      vy: 0,
-      grounded: false
+    let width = 260;
+    let height = 118;
+    let dpr = window.devicePixelRatio || 1;
+    let lastFrame = performance.now();
+    let running = false;
+    let timeLeft = 16;
+    let score = 0;
+    let message = 'Click to start';
+
+    const fly = {
+      x: 64,
+      y: 54,
+      radius: 8,
+      vx: 1.6,
+      vy: 1.25
     };
 
-    const gravity = 0.38;
-    const moveSpeed = 1.4;
-    const jumpSpeed = 4.8;
-    const keys = { left: false, right: false };
-    let controlsActive = false;
-
-    const platforms = [
-      { x: 0, y: 104, w: 260, h: 14 },
-      { x: 52, y: 82, w: 42, h: 8 },
-      { x: 122, y: 67, w: 46, h: 8 },
-      { x: 188, y: 51, w: 40, h: 8 }
-    ];
-
-    const goal = { x: 236, y: 33, w: 10, h: 18 };
-    let wonAt = 0;
-
-    function resetPlayer(){
-      state.x = 14;
-      state.y = 88;
-      state.vx = 0;
-      state.vy = 0;
-      state.grounded = false;
+    function resizeCanvas(){
+      const rect = canvas.getBoundingClientRect();
+      width = Math.max(140, Math.floor(rect.width));
+      height = Math.max(86, Math.floor(rect.height));
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fly.x = Math.min(Math.max(fly.radius, fly.x), width - fly.radius);
+      fly.y = Math.min(Math.max(24, fly.y), height - fly.radius);
     }
 
-    function intersects(a, b){
-      return (
-        a.x < (b.x + b.w) &&
-        (a.x + a.w) > b.x &&
-        a.y < (b.y + b.h) &&
-        (a.y + a.h) > b.y
-      );
+    function placeFlyRandomly(){
+      fly.x = 20 + (Math.random() * (width - 40));
+      fly.y = 30 + (Math.random() * (height - 42));
     }
 
-    resetPlayer();
+    function startRound(){
+      running = true;
+      timeLeft = 16;
+      score = 0;
+      fly.vx = (Math.random() > 0.5 ? 1 : -1) * 1.6;
+      fly.vy = (Math.random() > 0.5 ? 1 : -1) * 1.25;
+      placeFlyRandomly();
+      message = '';
+    }
 
-    canvas.tabIndex = 0;
-    canvas.addEventListener('mouseenter', () => { controlsActive = true; });
-    canvas.addEventListener('mouseleave', () => {
-      controlsActive = false;
-      keys.left = false;
-      keys.right = false;
-    });
-    canvas.addEventListener('focus', () => { controlsActive = true; });
-    canvas.addEventListener('blur', () => {
-      controlsActive = false;
-      keys.left = false;
-      keys.right = false;
-    });
-    canvas.addEventListener('click', () => { canvas.focus(); });
+    function endRound(){
+      running = false;
+      message = `Time! Caught: ${score}`;
+    }
 
-    function onKeyDown(event){
-      if(!controlsActive) return;
+    function clickPosition(event){
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    }
 
-      if(event.code === 'ArrowLeft' || event.code === 'KeyA'){
-        keys.left = true;
-      } else if(event.code === 'ArrowRight' || event.code === 'KeyD'){
-        keys.right = true;
-      } else if((event.code === 'ArrowUp' || event.code === 'Space' || event.code === 'KeyW') && state.grounded){
-        state.vy = -jumpSpeed;
-        state.grounded = false;
-      } else {
+    function attemptCatch(x, y){
+      if(!running){
+        startRound();
         return;
       }
 
+      const dx = x - fly.x;
+      const dy = y - fly.y;
+      const hitRadius = fly.radius + 6;
+      if((dx * dx) + (dy * dy) <= (hitRadius * hitRadius)){
+        score += 1;
+        const speedBoost = Math.min(4.2, 1.05 + (score * 0.015));
+        fly.vx = (fly.vx >= 0 ? 1 : -1) * Math.min(4.2, Math.abs(fly.vx) * speedBoost);
+        fly.vy = (fly.vy >= 0 ? 1 : -1) * Math.min(4.2, Math.abs(fly.vy) * speedBoost);
+        placeFlyRandomly();
+      }
+    }
+
+    canvas.addEventListener('click', (event) => {
+      const point = clickPosition(event);
+      attemptCatch(point.x, point.y);
+    });
+
+    canvas.addEventListener('touchstart', (event) => {
+      const touch = event.touches[0];
+      if(!touch) return;
+      const rect = canvas.getBoundingClientRect();
+      attemptCatch(touch.clientX - rect.left, touch.clientY - rect.top);
       event.preventDefault();
-    }
+    }, { passive: false });
 
-    function onKeyUp(event){
-      if(!controlsActive) return;
+    function update(now){
+      const dt = Math.min(0.05, (now - lastFrame) / 1000);
+      lastFrame = now;
 
-      if(event.code === 'ArrowLeft' || event.code === 'KeyA'){
-        keys.left = false;
-      } else if(event.code === 'ArrowRight' || event.code === 'KeyD'){
-        keys.right = false;
-      }
-    }
-
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
-
-    function update(){
-      if(wonAt && (performance.now() - wonAt > 1100)){
-        wonAt = 0;
-        resetPlayer();
-      }
-
-      if(wonAt){
-        return;
-      }
-
-      const movement = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
-      state.vx = movement * moveSpeed;
-      state.x += state.vx;
-      state.vy += gravity;
-      state.y += state.vy;
-
-      state.grounded = false;
-      platforms.forEach((platform) => {
-        const wasAbove = (state.y + state.h - state.vy) <= platform.y;
-        const isLanding = (state.y + state.h) >= platform.y;
-        const overlapX = (state.x + state.w) > platform.x && state.x < (platform.x + platform.w);
-        if(overlapX && wasAbove && isLanding && state.vy >= 0){
-          state.y = platform.y - state.h;
-          state.vy = 0;
-          state.grounded = true;
+      if(running){
+        timeLeft -= dt;
+        if(timeLeft <= 0){
+          endRound();
+          return;
         }
-      });
 
-      if(state.x < 0) state.x = 0;
-      if((state.x + state.w) > canvas.width) state.x = canvas.width - state.w;
-      if(state.y > canvas.height + 24){
-        resetPlayer();
-      }
+        fly.x += fly.vx;
+        fly.y += fly.vy;
 
-      if(intersects(state, goal)){
-        wonAt = performance.now();
+        if(fly.x <= fly.radius){
+          fly.x = fly.radius;
+          fly.vx = Math.abs(fly.vx);
+        } else if(fly.x >= (width - fly.radius)){
+          fly.x = width - fly.radius;
+          fly.vx = -Math.abs(fly.vx);
+        }
+
+        if(fly.y <= 24){
+          fly.y = 24;
+          fly.vy = Math.abs(fly.vy);
+        } else if(fly.y >= (height - fly.radius)){
+          fly.y = height - fly.radius;
+          fly.vy = -Math.abs(fly.vy);
+        }
       }
     }
 
     function draw(){
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, width, height);
 
       ctx.fillStyle = '#0f2742';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.strokeRect(0.5, 0.5, width - 1, height - 1);
 
-      ctx.strokeStyle = 'rgba(255,255,255,0.09)';
-      for(let x = 0; x < canvas.width; x += 16){
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.font = '10px Poppins, sans-serif';
+      ctx.fillText(`Score: ${score}`, 8, 14);
+      ctx.fillText(`Time: ${Math.max(0, Math.ceil(timeLeft))}`, width - 54, 14);
 
-      ctx.fillStyle = '#2b4d7e';
-      platforms.forEach((platform) => {
-        ctx.fillRect(platform.x, platform.y, platform.w, platform.h);
-      });
+      ctx.fillStyle = '#d4ecff';
+      ctx.beginPath();
+      ctx.ellipse(fly.x - 5, fly.y - 2, 6, 4, -0.35, 0, Math.PI * 2);
+      ctx.ellipse(fly.x + 5, fly.y - 2, 6, 4, 0.35, 0, Math.PI * 2);
+      ctx.fill();
 
-      ctx.fillStyle = '#ffd95f';
-      ctx.fillRect(goal.x, goal.y, goal.w, goal.h);
+      ctx.fillStyle = '#1f2f4f';
+      ctx.beginPath();
+      ctx.arc(fly.x, fly.y, fly.radius, 0, Math.PI * 2);
+      ctx.fill();
 
-      ctx.fillStyle = '#d7f2ff';
-      ctx.fillRect(state.x, state.y, state.w, state.h);
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(fly.x - 2, fly.y - 1, 1.4, 0, Math.PI * 2);
+      ctx.fill();
 
-      if(wonAt){
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 12px Poppins, sans-serif';
-        ctx.fillText('Goal!', 108, 40);
+      if(!running && message){
+        ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        ctx.font = 'bold 11px Poppins, sans-serif';
+        const metrics = ctx.measureText(message);
+        ctx.fillText(message, (width - metrics.width) / 2, (height / 2) + 3);
       }
     }
 
-    function frame(){
-      update();
+    function frame(now){
+      update(now);
       draw();
       requestAnimationFrame(frame);
     }
 
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
     requestAnimationFrame(frame);
   }
 
-  initMiniPlatformer();
+  initMiniFlyGame();
 
   // expose a tiny API: programLoaded() returns a value (seed) and sets theme accent
   window.programLoaded = function(){
