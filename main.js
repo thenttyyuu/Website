@@ -3,7 +3,7 @@
 (function(){
  const nameEl = document.getElementById('name');
  const tesseract = document.getElementById('tesseract');
- const dividerSpeed = 45; // px/second, fixed for all dividers
+ const dividerSpeed = 30; // px/second, fixed for all dividers
   const dividerStates = [];
 
   function makeDividerItem(text){
@@ -39,8 +39,15 @@
   function rebalanceDivider(state){
     const width = state.divider.clientWidth;
 
+    // Clean up offscreen items on the right (exited right)
     while(state.items.length && state.items[state.items.length - 1].x > width){
       const offscreen = state.items.pop();
+      offscreen.remove();
+    }
+
+    // Clean up offscreen items on the left (exited left)
+    while(state.items.length && (state.items[0].x + state.items[0].offsetWidth) < 0){
+      const offscreen = state.items.shift();
       offscreen.remove();
     }
 
@@ -58,7 +65,7 @@
 
   function initDividerTicker(){
     const dividers = document.querySelectorAll('.divider');
-    dividers.forEach((divider) => {
+    dividers.forEach((divider, index) => {
       const source = divider.querySelector('span');
       if(!source) return;
 
@@ -70,7 +77,10 @@
       track.className = 'divider-track';
       divider.appendChild(track);
 
-      const state = { divider, track, text, items: [] };
+      // Alternate direction based on the divider index
+      const direction = index % 2 === 0 ? 1 : -1;
+
+      const state = { divider, track, text, items: [], direction };
       addItemRight(state);
       while(
         state.items[state.items.length - 1].x + state.items[state.items.length - 1].offsetWidth < (divider.clientWidth * 1.5)
@@ -92,7 +102,9 @@
       lastFrame = now;
 
       dividerStates.forEach((state) => {
-        state.items.forEach((item) => positionItem(item, item.x + (dividerSpeed * dt)));
+        // Multiply speed by direction (1 or -1)
+        const speed = dividerSpeed * state.direction;
+        state.items.forEach((item) => positionItem(item, item.x + (speed * dt)));
         rebalanceDivider(state);
       });
 

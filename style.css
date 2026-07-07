@@ -124,7 +124,7 @@ a {
 .info-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 4rem;
 }
 
 /* ==========================================================================
@@ -157,7 +157,7 @@ a {
     color: var(--muted);
     font-weight: 600;
     white-space: nowrap;
-    padding-right: 2rem;
+    padding-right: 5rem;
     will-change: transform;
 }
 
@@ -436,7 +436,7 @@ a {
 @keyframes tennisBallArc {
     0% { transform: translate(0, 0); opacity: 0; }
     10% { opacity: 1; }
-    52% { transform: translate(150px, -34px); }
+    52% { transform: translate(150px, -34px); opacity: 1; }
     100% { transform: translate(234px, 6px); opacity: 0; }
 }
 
