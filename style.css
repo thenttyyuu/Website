@@ -351,14 +351,15 @@ a {
 }
 
 .interest-card[data-effect="snowboarding"].playing .snowboard-rider {
-    animation: snowboardRide 1.9s cubic-bezier(0.2, 0.75, 0.3, 1) both;
+    animation: snowboardRide 1.9s linear both;
 }
 
 @keyframes snowboardRide {
     0% { transform: translateX(0) translateY(0) rotate(-8deg); }
     35% { transform: translateX(-95px) translateY(-10px) rotate(0deg); }
-    70% { transform: translateX(-210px) translateY(2px) rotate(8deg); }
-    100% { transform: translateX(-340px) translateY(0) rotate(-2deg); }
+    50% { transform: translateX(-200px) translateY(2px) rotate(8deg); }
+    80% { transform: translateX(-310px) translateY(-25px) rotate(15deg); }
+    100% { transform: translateX(-400px) translateY(0) rotate(0deg); }
 }
 
 /* tennis */
@@ -416,7 +417,7 @@ a {
 }
 
 .interest-card[data-effect="tennis"].playing .tennis-ball {
-    animation: tennisBallArc 2s cubic-bezier(0.2, 0.4, 0.4, 1) both;
+    animation: tennisBallArc 2s linear both;
 }
 
 @keyframes tennisNetPop {
@@ -435,7 +436,7 @@ a {
 @keyframes tennisBallArc {
     0% { transform: translate(0, 0); opacity: 0; }
     10% { opacity: 1; }
-    52% { transform: translate(128px, -34px); }
+    52% { transform: translate(150px, -34px); }
     100% { transform: translate(234px, 6px); opacity: 0; }
 }
 
@@ -581,7 +582,7 @@ a {
     100% { transform: translateX(-290px); }
 }
 
-/* games (roblox-like walk) */
+/* games (game-like walk) */
 .games-track {
     left: 6%;
     right: 6%;
@@ -590,7 +591,7 @@ a {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.roblox-character {
+.game-character{
     width: 20px;
     height: 30px;
     right: -32px;
@@ -600,8 +601,8 @@ a {
     box-shadow: 0 0 10px rgba(197, 107, 255, 0.5);
 }
 
-.roblox-character::before,
-.roblox-character::after {
+.game-character::before,
+.game-character::after {
     content: "";
     position: absolute;
     bottom: -8px;
@@ -611,14 +612,14 @@ a {
     background: #ffffff;
 }
 
-.roblox-character::before { left: 2px; }
-.roblox-character::after { right: 2px; }
+.game-character::before { left: 2px; }
+.game-character::after { right: 2px; }
 
-.interest-card[data-effect="games"].playing .roblox-character {
-    animation: robloxWalk 2s linear both;
+.interest-card[data-effect="games"].playing .game-character {
+    animation: Walk 2s linear both;
 }
 
-@keyframes robloxWalk {
+@keyframes Walk {
     0% { transform: translateX(0) translateY(0); }
     25% { transform: translateX(-70px) translateY(-2px); }
     50% { transform: translateX(-140px) translateY(0); }
