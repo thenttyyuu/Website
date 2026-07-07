@@ -317,7 +317,7 @@
     const fly = {
       x: 64,
       y: 54,
-      radius: 8,
+      radius: 12,
       vx: 1.6,
       vy: 1.25
     };
