@@ -18,6 +18,15 @@
 
     --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto,
         'Helvetica Neue', Arial;
+
+    --fluid-text: clamp(1rem, 0.9rem + 0.35vw + 0.2vh, 1.22rem);
+    --fluid-small-text: clamp(0.96rem, 0.86rem + 0.3vw + 0.16vh, 1.1rem);
+    --fluid-h3: clamp(1.12rem, 0.96rem + 0.55vw + 0.2vh, 1.5rem);
+    --fluid-panel-pad-y: clamp(2rem, 1.4rem + 1.2vw + 0.9vh, 3.6rem);
+    --fluid-panel-pad-x: clamp(1.1rem, 0.8rem + 1.4vw, 2.6rem);
+    --fluid-card-pad: clamp(1rem, 0.8rem + 0.9vw + 0.5vh, 1.55rem);
+    --fluid-card-min-height: clamp(170px, 17vh, 260px);
+    --fluid-visual-height: clamp(122px, 15vh, 188px);
 }
 
 /* ==========================================================================
@@ -55,6 +64,7 @@ body {
     --mx: 50;
     --my: 50;
     padding-top: 76px;
+    font-size: var(--fluid-text);
 }
 
 a {
@@ -148,7 +158,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 }
 
 .page-shell {
-    width: min(1100px, 92vw);
+    width: min(1380px, 94vw);
     margin: 0 auto 2rem auto;
 }
 
@@ -156,18 +166,20 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
-    padding: 1.4rem;
+    padding: var(--fluid-card-pad);
     margin-bottom: 1rem;
 }
 
 .title-card h1 {
     margin: 0;
     color: var(--neon-green);
+    font-size: clamp(1.6rem, 1.2rem + 1vw + 0.4vh, 2.6rem);
 }
 
 .title-card p {
     margin: 0.6rem 0 0;
     color: var(--muted);
+    font-size: var(--fluid-small-text);
 }
 
 .info-grid {
@@ -310,7 +322,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
    ========================================================================== */
 
 .panel {
-    padding: 3rem 2rem;
+    padding: var(--fluid-panel-pad-y) var(--fluid-panel-pad-x);
     scroll-margin-top: 96px;
 }
 
@@ -326,7 +338,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 .card {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.02),
             transparent);
-    padding: 1rem;
+    padding: var(--fluid-card-pad);
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -334,12 +346,15 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 }
 
 .card h3 {
-    margin: 0 0 0.4rem 0;
+    margin: 0 0 0.5rem 0;
+    font-size: var(--fluid-h3);
 }
 
 .card p {
     color: var(--muted);
     margin: 0 0 0.8rem 0;
+    font-size: var(--fluid-small-text);
+    line-height: 1.45;
 }
 
 #interests .info-grid {
@@ -351,7 +366,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr);
     align-items: center;
-    min-height: 170px;
+    min-height: var(--fluid-card-min-height);
     gap: 1.25rem;
 }
 
@@ -366,7 +381,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 .interest-visual {
     position: relative;
     width: 100%;
-    height: 122px;
+    height: var(--fluid-visual-height);
     --travel-full: 260px;
     --travel-mid: 140px;
     --travel-end: 320px;
@@ -718,7 +733,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
    ========================================================================== */
 
 .project-card {
-    padding: 1rem;
+    padding: var(--fluid-card-pad);
     border-radius: 10px;
     background: var(--panel);
     border: 1px solid rgba(255, 255, 255, 0.03);
@@ -735,17 +750,18 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
     align-items: center;
     gap: 1.2rem;
-    min-height: 172px;
+    min-height: var(--fluid-card-min-height);
 }
 
 .feature-copy h3 {
     margin: 0 0 0.5rem;
+    font-size: var(--fluid-h3);
 }
 
 .feature-copy p {
     margin: 0;
-    font-size: 0.92rem;
-    line-height: 1.35;
+    font-size: var(--fluid-small-text);
+    line-height: 1.45;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -755,7 +771,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 .feature-visual {
     position: relative;
     width: 100%;
-    height: 122px;
+    height: var(--fluid-visual-height);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.07);
     background: radial-gradient(circle at 50% 40%, rgba(0, 212, 255, 0.08), transparent 70%),
@@ -1000,6 +1016,15 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 }
 
 @media (max-width: 760px) {
+    :root {
+        --fluid-text: clamp(1.02rem, 0.96rem + 0.7vw + 0.24vh, 1.24rem);
+        --fluid-small-text: clamp(1rem, 0.93rem + 0.58vw + 0.2vh, 1.18rem);
+        --fluid-h3: clamp(1.2rem, 1.05rem + 0.8vw + 0.22vh, 1.6rem);
+        --fluid-card-pad: clamp(1.15rem, 0.95rem + 1.2vw + 0.6vh, 1.7rem);
+        --fluid-card-min-height: clamp(186px, 22vh, 300px);
+        --fluid-visual-height: clamp(136px, 18vh, 212px);
+    }
+
     body {
         padding-top: 64px;
     }
@@ -1055,7 +1080,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     }
 
     .interest-visual {
-        height: 112px;
+        height: var(--fluid-visual-height);
     }
 
     .name {
@@ -1072,7 +1097,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     }
 
     .feature-visual {
-        height: 112px;
+        height: var(--fluid-visual-height);
     }
 }
 
