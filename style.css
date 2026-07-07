@@ -33,6 +33,10 @@ body {
     height: 100%;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: var(--font);
@@ -50,11 +54,77 @@ body {
     /* cursor-reactive variables (updated from JS) */
     --mx: 50;
     --my: 50;
+    padding-top: 76px;
 }
 
 a {
     color: var(--neon-blue);
     text-decoration: none;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0.8rem 1rem;
+    background: rgba(7, 16, 33, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+}
+
+.nav-btn {
+    display: inline-block;
+    padding: 0.45rem 0.8rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e6eef8;
+    background: rgba(255, 255, 255, 0.04);
+    font-weight: 600;
+}
+
+.nav-btn:hover {
+    filter: brightness(1.15);
+}
+
+.nav-btn.active {
+    border-color: rgba(0, 255, 156, 0.6);
+    box-shadow: 0 0 12px rgba(0, 255, 156, 0.16);
+}
+
+.page-shell {
+    width: min(1100px, 92vw);
+    margin: 0 auto 2rem auto;
+}
+
+.title-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.title-card h1 {
+    margin: 0;
+    color: var(--neon-green);
+}
+
+.title-card p {
+    margin: 0.6rem 0 0;
+    color: var(--muted);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
 }
 
 /* ==========================================================================
@@ -192,6 +262,7 @@ a {
 
 .panel {
     padding: 2rem 3rem;
+    scroll-margin-top: 96px;
 }
 
 .panel h2 {
@@ -202,12 +273,6 @@ a {
 /* ==========================================================================
    Interests / Cards
    ========================================================================== */
-
-.interests .cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
 
 .card {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.02),
@@ -228,45 +293,376 @@ a {
     margin: 0 0 0.8rem 0;
 }
 
-.card-anim {
+#interests .info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.interest-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr);
+    align-items: center;
+    min-height: 170px;
+    gap: 1.25rem;
+}
+
+.interest-copy h3 {
+    margin: 0 0 0.5rem;
+}
+
+.interest-copy p {
+    margin: 0;
+}
+
+.interest-visual {
+    position: relative;
+    width: 100%;
+    height: 122px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: radial-gradient(circle at 50% 40%, rgba(0, 212, 255, 0.08), transparent 70%),
+        rgba(7, 16, 33, 0.9);
+    overflow: hidden;
+}
+
+.interest-visual span,
+.interest-visual div {
     position: absolute;
-    right: -10px;
-    bottom: -10px;
-    width: 120px;
-    height: 120px;
-    opacity: 0.13;
-    -webkit-filter: blur(6px);
-    filter: blur(6px);
 }
 
-.ball {
-    background: radial-gradient(circle at 30% 30%, #fff, var(--neon-green));
-    border-radius: 50%;
+/* snowboarding */
+.snowboard-trail {
+    left: 10%;
+    right: 10%;
+    top: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    opacity: 0.25;
 }
 
-.circuits {
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
-    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
-}
-
-.ml-wave {
-    background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
-    -webkit-clip-path: circle(40% at 60% 30%);
-    clip-path: circle(40% at 60% 30%);
-}
-
-.pixel {
-    background: linear-gradient(90deg, #fff, var(--neon-purple));
-    /* provide multiple fallbacks for pixel rendering */
-    -webkit-image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    image-rendering: pixelated;
-}
-
-.chat {
+.snowboard-rider {
+    width: 52px;
+    height: 18px;
+    top: 52%;
+    right: -70px;
+    border-radius: 40px;
     background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
-    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+}
+
+.interest-card[data-effect="snowboarding"].playing .snowboard-rider {
+    animation: snowboardRide 1.9s cubic-bezier(0.2, 0.75, 0.3, 1) both;
+}
+
+@keyframes snowboardRide {
+    0% { transform: translateX(0) translateY(0) rotate(-8deg); }
+    35% { transform: translateX(-95px) translateY(-10px) rotate(0deg); }
+    70% { transform: translateX(-210px) translateY(2px) rotate(8deg); }
+    100% { transform: translateX(-340px) translateY(0) rotate(-2deg); }
+}
+
+/* tennis */
+.tennis-net {
+    left: 50%;
+    top: 14%;
+    width: 2px;
+    height: 72%;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.8) 0 4px,
+        rgba(255, 255, 255, 0.25) 4px 8px
+    );
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.tennis-racket {
+    width: 26px;
+    height: 40px;
+    left: 18px;
+    top: 62%;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    transform: rotate(-38deg);
+}
+
+.tennis-racket::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    left: 10px;
+    bottom: -17px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.tennis-ball {
+    width: 12px;
+    height: 12px;
+    left: 20px;
+    top: 67%;
+    border-radius: 50%;
+    background: #d8ff66;
+    box-shadow: 0 0 10px rgba(216, 255, 102, 0.8);
+}
+
+.interest-card[data-effect="tennis"].playing .tennis-net {
+    animation: tennisNetPop 2s ease both;
+}
+
+.interest-card[data-effect="tennis"].playing .tennis-racket {
+    animation: tennisServe 2s ease-in-out both;
+}
+
+.interest-card[data-effect="tennis"].playing .tennis-ball {
+    animation: tennisBallArc 2s cubic-bezier(0.2, 0.4, 0.4, 1) both;
+}
+
+@keyframes tennisNetPop {
+    0%, 16% { opacity: 0; }
+    25%, 90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes tennisServe {
+    0% { transform: rotate(-38deg) translateX(0); }
+    22% { transform: rotate(15deg) translateX(14px); }
+    44% { transform: rotate(-20deg) translateX(4px); }
+    100% { transform: rotate(-32deg) translateX(0); }
+}
+
+@keyframes tennisBallArc {
+    0% { transform: translate(0, 0); opacity: 0; }
+    10% { opacity: 1; }
+    52% { transform: translate(128px, -34px); }
+    100% { transform: translate(234px, 6px); opacity: 0; }
+}
+
+/* computer (pong) */
+.pong-board {
+    inset: 10%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+}
+
+.pong-board::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    bottom: 5%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.7) 0 6px,
+        transparent 6px 12px
+    );
+}
+
+.pong-paddle {
+    width: 6px;
+    height: 26px;
+    top: 50%;
+    margin-top: -13px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.pong-left { left: 8px; }
+.pong-right { right: 8px; }
+
+.pong-ball {
+    width: 8px;
+    height: 8px;
+    left: 24px;
+    top: 50%;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: var(--neon-green);
+}
+
+.pong-finish {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    opacity: 0;
+}
+
+.interest-card[data-effect="computer"].playing .pong-left {
+    animation: pongPaddleLeft 2.3s linear both;
+}
+
+.interest-card[data-effect="computer"].playing .pong-right {
+    animation: pongPaddleRight 2.3s linear both;
+}
+
+.interest-card[data-effect="computer"].playing .pong-ball {
+    animation: pongBallPlay 2.3s linear both;
+}
+
+.interest-card[data-effect="computer"].playing .pong-finish {
+    animation: pongEndFlash 2.3s ease both;
+}
+
+@keyframes pongPaddleLeft {
+    0%, 100% { transform: translateY(-14px); }
+    25% { transform: translateY(20px); }
+    50% { transform: translateY(-6px); }
+    75% { transform: translateY(16px); }
+}
+
+@keyframes pongPaddleRight {
+    0%, 100% { transform: translateY(14px); }
+    20% { transform: translateY(-18px); }
+    54% { transform: translateY(16px); }
+    82% { transform: translateY(-10px); }
+}
+
+@keyframes pongBallPlay {
+    0% { transform: translate(0, -10px); }
+    22% { transform: translate(72px, 18px); }
+    46% { transform: translate(148px, -12px); }
+    68% { transform: translate(98px, 20px); }
+    92% { transform: translate(190px, -2px); }
+    100% { transform: translate(210px, -2px); opacity: 0; }
+}
+
+@keyframes pongEndFlash {
+    0%, 82% { opacity: 0; }
+    88%, 96% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* machine learning */
+.ml-path {
+    left: 8%;
+    right: 8%;
+    top: 62%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.55), transparent);
+}
+
+.ml-robot {
+    width: 34px;
+    height: 28px;
+    right: -46px;
+    top: 40%;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #dde8ff, #84d8ff);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+}
+
+.ml-robot::before,
+.ml-robot::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: #0b1220;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+}
+
+.ml-robot::before { left: 9px; }
+.ml-robot::after { right: 9px; }
+
+.interest-card[data-effect="machine-learning"].playing .ml-robot {
+    animation: robotMove 1.8s ease-in-out both;
+}
+
+@keyframes robotMove {
+    0% { transform: translateX(0); }
+    45% { transform: translateX(-110px); }
+    100% { transform: translateX(-290px); }
+}
+
+/* games (roblox-like walk) */
+.games-track {
+    left: 6%;
+    right: 6%;
+    top: 68%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.roblox-character {
+    width: 20px;
+    height: 30px;
+    right: -32px;
+    top: 36%;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #ffffff, #dbe2ff);
+    box-shadow: 0 0 10px rgba(197, 107, 255, 0.5);
+}
+
+.roblox-character::before,
+.roblox-character::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    width: 6px;
+    height: 8px;
+    border-radius: 2px;
+    background: #ffffff;
+}
+
+.roblox-character::before { left: 2px; }
+.roblox-character::after { right: 2px; }
+
+.interest-card[data-effect="games"].playing .roblox-character {
+    animation: robloxWalk 2s linear both;
+}
+
+@keyframes robloxWalk {
+    0% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-70px) translateY(-2px); }
+    50% { transform: translateX(-140px) translateY(0); }
+    75% { transform: translateX(-210px) translateY(-2px); }
+    100% { transform: translateX(-290px) translateY(0); }
+}
+
+/* hanging out */
+.hangout-scene {
+    inset: 0;
+    opacity: 0;
+}
+
+.hangout-table {
+    width: 70px;
+    height: 34px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    background: linear-gradient(180deg, #7b5739, #55341f);
+}
+
+.friend {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #f7f7ff, #abc8ff);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.28);
+}
+
+.friend-a { left: 50%; top: 24%; transform: translateX(-50%); }
+.friend-b { left: 30%; top: 49%; }
+.friend-c { right: 30%; top: 49%; }
+.friend-d { left: 50%; bottom: 14%; transform: translateX(-50%); }
+
+.interest-card[data-effect="hanging-out"].playing .hangout-scene {
+    animation: hangoutFade 2.4s ease-in-out both;
+}
+
+@keyframes hangoutFade {
+    0%, 15% { opacity: 0; }
+    30%, 72% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 /* ==========================================================================
@@ -427,18 +823,27 @@ a {
         padding: 2rem;
     }
 
-    .interests .cards {
-        grid-template-columns: repeat(2, 1fr);
+    .interest-card {
+        grid-template-columns: minmax(0, 1fr) minmax(190px, 0.9fr);
     }
 
     .name {
         font-size: 3rem;
     }
+
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 520px) {
-    .interests .cards {
+    .interest-card {
         grid-template-columns: 1fr;
+        gap: 0.9rem;
+    }
+
+    .interest-visual {
+        height: 112px;
     }
 
     .projects .cards.small {
@@ -447,6 +852,10 @@ a {
 
     .name {
         font-size: 2.4rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
     }
 }
 

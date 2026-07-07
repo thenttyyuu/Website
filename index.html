@@ -1,200 +1,261 @@
-<!--
-  index.html - Personal site for Elwin
-  Plain HTML entrypoint. Sections: Hero, About, Interests, Projects, Experience, Footer
--->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Elwin — Quietly Leading</title>
-
-  <!-- Google Font: clean sans-serif -->
+  <title>Elwin — Personal Site</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Animated, reusable section divider -->
-  <div class="divider" aria-hidden>
-    <span data-text=" - - - Introduction - - - "> - - - Introduction - - - </span>
-  </div>
+  <nav class="top-bar" aria-label="Main navigation">
+    <a class="nav-btn" href="#intro">Introduction</a>
+    <a class="nav-btn" href="#about">About</a>
+    <a class="nav-btn" href="#interests">Interests</a>
+    <a class="nav-btn" href="#projects">Projects</a>
+    <a class="nav-btn" href="#experience">Experience</a>
+    <a class="nav-btn" href="#contact">Contact</a>
+  </nav>
 
-  <!-- HERO / INTRODUCTION -->
-  <header class="hero" id="hero">
-    <div class="hero-left">
+  <main class="page-shell">
+    <section id="intro" class="title-card panel">
       <h1 class="name" id="name">Elwin</h1>
       <p class="tagline">Quietly coding. Loudly curious.</p>
       <p class="intro">I'm a casual programmer interested in game development, machine learning, and the occasional perfect tennis serve.</p>
+    </section>
 
-      <div class="links">
-        <a class="weird-btn" href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a>
-        <a class="weird-btn" href="mailto:elwinzhang.ez@gmail.com">Email</a>
-      </div>
+    <section class="info-grid panel">
+      <article class="card">
+        <h3>Quick Links</h3>
+        <p>Find me online and reach out directly.</p>
+        <div class="links">
+          <a class="weird-btn" href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a>
+          <a class="weird-btn" href="mailto:elwinzhang.ez@gmail.com">Email</a>
+        </div>
+      </article>
 
-      <!-- Small "game" gate to access sections -->
-      <div class="gate">
-        <button id="playBtn" class="weird-btn play">Play to Unlock</button>
-        <p class="gate-hint">Click the play button 5 times to unlock sections.</p>
-      </div>
+      <article class="card">
+        <h3>Current Focus</h3>
+        <p>Building thoughtful projects and improving with each experiment.</p>
+      </article>
+
+      <article class="card">
+        <h3>Visual</h3>
+        <div id="tesseract" class="tesseract" aria-hidden>
+          <div class="face f1"></div>
+          <div class="face f2"></div>
+          <div class="face f3"></div>
+          <div class="face f4"></div>
+          <div class="face f5"></div>
+          <div class="face f6"></div>
+        </div>
+      </article>
+    </section>
+
+    <div class="divider" aria-hidden>
+      <span data-text=" - - - About me - - - "> - - - About me - - - </span>
     </div>
 
-    <div class="hero-right">
-      <!-- Simple interactive 3D-ish object (CSS + JS) -->
-      <div id="tesseract" class="tesseract" aria-hidden>
-        <div class="face f1"></div>
-        <div class="face f2"></div>
-        <div class="face f3"></div>
-        <div class="face f4"></div>
-        <div class="face f5"></div>
-        <div class="face f6"></div>
-      </div>
+    <section id="about" class="panel">
+      <section class="title-card">
+        <h1>About Me</h1>
+        <p>Quiet by nature, focused in action, and always building with intention.</p>
+      </section>
+      <section class="info-grid">
+        <article class="card">
+          <h3>Who I Am</h3>
+          <p>Hi — I'm Elwin. I'm a casual programmer into game development and machine learning.</p>
+        </article>
+        <article class="card">
+          <h3>How I Work</h3>
+          <p>I build things slowly and thoughtfully, and I step up to lead when it matters.</p>
+        </article>
+        <article class="card">
+          <h3>Off the Keyboard</h3>
+          <p>I play tennis and enjoy spending time with friends to recharge and reset.</p>
+        </article>
+      </section>
+    </section>
+
+    <div class="divider" aria-hidden>
+      <span data-text=" - - - Interests - - - "> - - - Interests - - - </span>
     </div>
-  </header>
 
-  <div class="divider">
-    <span data-text=" - - - About me - - - "></span>
-  </div>
+    <section id="interests" class="panel">
+      <section class="title-card">
+        <h1>Interests</h1>
+        <p>The things that keep me curious and moving forward.</p>
+      </section>
+      <section class="info-grid">
+        <article class="card interest-card" data-effect="snowboarding">
+          <div class="interest-copy">
+            <h3>Snowboarding</h3>
+            <p>Fast turns and clean carves keep me fully locked in.</p>
+          </div>
+          <div class="interest-visual snowboard-visual" aria-hidden="true">
+            <span class="snowboard-trail"></span>
+            <span class="snowboard-rider"></span>
+          </div>
+        </article>
 
-  <!-- ABOUT -->
-  <section id="about" class="panel about">
-    <h2>About me</h2>
-    <p>Hi — I'm Elwin. I'm a casual programmer into game development and machine learning. I play tennis and enjoy hanging out with friends. I'm quiet by nature but step up to lead when it matters. I build things slowly and thoughtfully.</p>
-  </section>
+        <article class="card interest-card" data-effect="tennis">
+          <div class="interest-copy">
+            <h3>Tennis</h3>
+            <p>Quick reflexes, long rallies, and timing every serve just right.</p>
+          </div>
+          <div class="interest-visual tennis-visual" aria-hidden="true">
+            <span class="tennis-net"></span>
+            <span class="tennis-racket"></span>
+            <span class="tennis-ball"></span>
+          </div>
+        </article>
 
-  <div class="divider">
-    <span data-text=" - - - Interests - - - "></span>
-  </div>
+        <article class="card interest-card" data-effect="computer">
+          <div class="interest-copy">
+            <h3>Computer</h3>
+            <p>I like building tools and little games while learning how systems work.</p>
+          </div>
+          <div class="interest-visual computer-visual" aria-hidden="true">
+            <div class="pong-board">
+              <span class="pong-paddle pong-left"></span>
+              <span class="pong-paddle pong-right"></span>
+              <span class="pong-ball"></span>
+              <span class="pong-finish">GG</span>
+            </div>
+          </div>
+        </article>
 
-  <!-- INTERESTS -->
-  <section id="interests" class="panel interests">
-    <h2>Interests</h2>
-    <div class="cards">
-      <article class="card" data-topic="tennis">
-        <h3>Tennis</h3>
-        <p>Quick reflexes, long rallies — I love the rhythm of the game.</p>
-        <div class="card-anim ball" aria-hidden></div>
-      </article>
+        <article class="card interest-card" data-effect="machine-learning">
+          <div class="interest-copy">
+            <h3>Machine Learning</h3>
+            <p>Testing models and data ideas, especially when they connect to games.</p>
+          </div>
+          <div class="interest-visual ml-visual" aria-hidden="true">
+            <span class="ml-path"></span>
+            <span class="ml-robot"></span>
+          </div>
+        </article>
 
-      <article class="card" data-topic="computers">
-        <h3>Computers</h3>
-        <p>Hardware and software tinkering — I enjoy low-level puzzles and tooling.</p>
-        <div class="card-anim circuits" aria-hidden></div>
-      </article>
+        <article class="card interest-card" data-effect="games">
+          <div class="interest-copy">
+            <h3>Games</h3>
+            <p>Game feel, mechanics, and design loops always pull me in.</p>
+          </div>
+          <div class="interest-visual games-visual" aria-hidden="true">
+            <span class="games-track"></span>
+            <span class="roblox-character"></span>
+          </div>
+        </article>
 
-      <article class="card" data-topic="ml">
-        <h3>Machine Learning</h3>
-        <p>Experimenting with models and data; curious about applying ML to games.</p>
-        <div class="card-anim ml-wave" aria-hidden></div>
-      </article>
+        <article class="card interest-card" data-effect="hanging-out">
+          <div class="interest-copy">
+            <h3>Hanging Out</h3>
+            <p>Spending time with friends helps me reset and come back sharper.</p>
+          </div>
+          <div class="interest-visual hangout-visual" aria-hidden="true">
+            <div class="hangout-scene">
+              <span class="hangout-table"></span>
+              <span class="friend friend-a"></span>
+              <span class="friend friend-b"></span>
+              <span class="friend friend-c"></span>
+              <span class="friend friend-d"></span>
+            </div>
+          </div>
+        </article>
+      </section>
+    </section>
 
-      <article class="card" data-topic="games">
-        <h3>Games</h3>
-        <p>I make and play games — design, feel and simple mechanics fascinate me.</p>
-        <div class="card-anim pixel" aria-hidden></div>
-      </article>
-
-      <article class="card" data-topic="friends">
-        <h3>Hanging Out</h3>
-        <p>Low-key social time is where ideas and energy recharge.</p>
-        <div class="card-anim chat" aria-hidden></div>
-      </article>
+    <div class="divider" aria-hidden>
+      <span data-text=" - - - Projects - - - "> - - - Projects - - - </span>
     </div>
-  </section>
 
-  <div class="divider">
-    <span data-text=" - - - Projects - - - "></span>
-  </div>
+    <section id="projects" class="panel">
+      <section class="title-card">
+        <h1>Projects</h1>
+        <p>Things I am building, testing, and improving.</p>
+      </section>
+      <section class="info-grid">
+        <article class="project-card">
+          <h3>This Site</h3>
+          <p>Personal site with playful interactions and section-based pages.</p>
+        </article>
+        <article class="project-card">
+          <h3>2D Game</h3>
+          <p>Prototype arcade-style 2D game with simple mechanics and iteration.</p>
+        </article>
+        <article class="project-card">
+          <h3>Another Project</h3>
+          <p>A fresh idea waiting to be designed and built out.</p>
+        </article>
+      </section>
+    </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="panel projects locked">
-    <h2>Projects</h2>
-    <div class="cards small">
-      <article class="project-card">
-        <h3>This site</h3>
-        <p>Personal site with playful interactions.</p>
-      </article>
-      <article class="project-card">
-        <h3>2D Game</h3>
-        <p>Prototype arcade-style 2D game (placeholder).</p>
-      </article>
-      <article class="project-card">
-        <h3>Another project</h3>
-        <p>Fresh idea waiting to be built.</p>
-      </article>
+    <div class="divider" aria-hidden>
+      <span data-text=" - - - Experience - - - "> - - - Experience - - - </span>
     </div>
-  </section>
 
-  <div class="divider">
-    <span data-text=" - - - Experience - - - "></span>
-  </div>
+    <section id="experience" class="panel">
+      <section class="title-card">
+        <h1>Professional Experience</h1>
+        <p>Highlights and milestones from my work journey.</p>
+      </section>
+      <section class="info-grid">
+        <article class="card">
+          <h3>Current Stage</h3>
+          <p>Building practical coding experience through personal projects and learning.</p>
+        </article>
+        <article class="card">
+          <h3>Strengths</h3>
+          <p>Steady execution, curiosity, and thoughtful problem solving.</p>
+        </article>
+        <article class="card">
+          <h3>Next Step</h3>
+          <p>Expanding this section with concrete roles, outcomes, and linked work.</p>
+        </article>
+      </section>
+    </section>
 
-  <!-- PROFESSIONAL EXPERIENCE (placeholder) -->
-  <section id="experience" class="panel experience locked">
-    <h2>Professional experiences</h2>
-    <p>Coming soon — concise list of roles, highlights and links.</p>
-  </section>
+    <div class="divider" aria-hidden>
+      <span data-text=" - - - Contact - - - "> - - - Contact - - - </span>
+    </div>
 
-  <footer class="footer">
-    <h3>Let's connect</h3>
-    <p>
-      <a href="https://formspree.io/f/mykqpgzr">Contact Me</a> —
-      <a href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a>
-    </p>
-    <!-- modify this form HTML and place wherever you want your form -->
-<form
-  id="contactForm"
-  class="contact-form"
-  action="https://formspree.io/f/mykqpgzr"
-  method="POST"
-  onsubmit="postContactForm(event)"
->
-  <label>
-    Your email:
-    <input type="email" name="email" required>
-  </label>
-  <label>
-    Your message:
-    <textarea name="message" required></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
-  <p id="contactFormStatus" aria-live="polite"></p>
-</form>
-  </footer>
+    <section id="contact" class="panel">
+      <section class="title-card">
+        <h1>Contact</h1>
+        <p>Send a message, or connect through GitHub.</p>
+      </section>
+      <section class="info-grid">
+        <article class="card">
+          <h3>Links</h3>
+          <p>
+            <a href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a><br>
+            <a href="mailto:elwinzhang.ez@gmail.com">elwinzhang.ez@gmail.com</a>
+          </p>
+        </article>
+        <article class="card">
+          <h3>Send a Message</h3>
+          <form
+            id="contactForm"
+            class="contact-form"
+            action="https://formspree.io/f/mykqpgzr"
+            method="POST"
+          >
+            <label>
+              Your email:
+              <input type="email" name="email" required>
+            </label>
+            <label>
+              Your message:
+              <textarea name="message" required></textarea>
+            </label>
+            <button type="submit">Send</button>
+            <p id="contactFormStatus" aria-live="polite"></p>
+          </form>
+        </article>
+      </section>
+    </section>
+  </main>
 
-  <script>
-    async function postContactForm(event) {
-      event.preventDefault();
-
-      const form = event.currentTarget;
-      const status = document.getElementById('contactFormStatus');
-      const submitButton = form.querySelector('button[type="submit"]');
-
-      status.textContent = 'Sending...';
-      submitButton.disabled = true;
-
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' }
-        });
-
-        if (!response.ok) {
-          status.textContent = 'Message failed to send. Please try again.';
-          return;
-        }
-
-        form.reset();
-        status.textContent = 'Message sent successfully.';
-      } catch (error) {
-        status.textContent = `Message failed to send: ${error.message}`;
-      } finally {
-        submitButton.disabled = false;
-      }
-    }
-  </script>
   <script src="./main.js" defer></script>
 </body>
 </html>
