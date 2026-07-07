@@ -137,6 +137,42 @@
     nameEl.addEventListener('mouseleave', ()=>{ nameEl.style.transform = ''; });
   }
 
+  function initMobileMenu(){
+    const toggle = document.getElementById('mobileMenuToggle');
+    const navLinks = document.getElementById('mainNavLinks');
+    if(!toggle || !navLinks) return;
+
+    function closeMenu(){
+      document.body.classList.remove('menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function openMenu(){
+      document.body.classList.add('menu-open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    toggle.addEventListener('click', () => {
+      if(document.body.classList.contains('menu-open')){
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => closeMenu());
+    });
+
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 760){
+        closeMenu();
+      }
+    });
+  }
+
+  initMobileMenu();
+
   async function postContactForm(event) {
     event.preventDefault();
 
@@ -226,6 +262,185 @@
   }
 
   initInterestEffects();
+
+  function initMiniPlatformer(){
+    const canvas = document.getElementById('miniPlatformerCanvas');
+    if(!canvas || !(canvas instanceof HTMLCanvasElement)) return;
+
+    const ctx = canvas.getContext('2d');
+    if(!ctx) return;
+
+    const state = {
+      x: 14,
+      y: 0,
+      w: 10,
+      h: 12,
+      vx: 0,
+      vy: 0,
+      grounded: false
+    };
+
+    const gravity = 0.38;
+    const moveSpeed = 1.4;
+    const jumpSpeed = 4.8;
+    const keys = { left: false, right: false };
+    let controlsActive = false;
+
+    const platforms = [
+      { x: 0, y: 104, w: 260, h: 14 },
+      { x: 52, y: 82, w: 42, h: 8 },
+      { x: 122, y: 67, w: 46, h: 8 },
+      { x: 188, y: 51, w: 40, h: 8 }
+    ];
+
+    const goal = { x: 236, y: 33, w: 10, h: 18 };
+    let wonAt = 0;
+
+    function resetPlayer(){
+      state.x = 14;
+      state.y = 88;
+      state.vx = 0;
+      state.vy = 0;
+      state.grounded = false;
+    }
+
+    function intersects(a, b){
+      return (
+        a.x < (b.x + b.w) &&
+        (a.x + a.w) > b.x &&
+        a.y < (b.y + b.h) &&
+        (a.y + a.h) > b.y
+      );
+    }
+
+    resetPlayer();
+
+    canvas.tabIndex = 0;
+    canvas.addEventListener('mouseenter', () => { controlsActive = true; });
+    canvas.addEventListener('mouseleave', () => {
+      controlsActive = false;
+      keys.left = false;
+      keys.right = false;
+    });
+    canvas.addEventListener('focus', () => { controlsActive = true; });
+    canvas.addEventListener('blur', () => {
+      controlsActive = false;
+      keys.left = false;
+      keys.right = false;
+    });
+    canvas.addEventListener('click', () => { canvas.focus(); });
+
+    function onKeyDown(event){
+      if(!controlsActive) return;
+
+      if(event.code === 'ArrowLeft' || event.code === 'KeyA'){
+        keys.left = true;
+      } else if(event.code === 'ArrowRight' || event.code === 'KeyD'){
+        keys.right = true;
+      } else if((event.code === 'ArrowUp' || event.code === 'Space' || event.code === 'KeyW') && state.grounded){
+        state.vy = -jumpSpeed;
+        state.grounded = false;
+      } else {
+        return;
+      }
+
+      event.preventDefault();
+    }
+
+    function onKeyUp(event){
+      if(!controlsActive) return;
+
+      if(event.code === 'ArrowLeft' || event.code === 'KeyA'){
+        keys.left = false;
+      } else if(event.code === 'ArrowRight' || event.code === 'KeyD'){
+        keys.right = false;
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+
+    function update(){
+      if(wonAt && (performance.now() - wonAt > 1100)){
+        wonAt = 0;
+        resetPlayer();
+      }
+
+      if(wonAt){
+        return;
+      }
+
+      const movement = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+      state.vx = movement * moveSpeed;
+      state.x += state.vx;
+      state.vy += gravity;
+      state.y += state.vy;
+
+      state.grounded = false;
+      platforms.forEach((platform) => {
+        const wasAbove = (state.y + state.h - state.vy) <= platform.y;
+        const isLanding = (state.y + state.h) >= platform.y;
+        const overlapX = (state.x + state.w) > platform.x && state.x < (platform.x + platform.w);
+        if(overlapX && wasAbove && isLanding && state.vy >= 0){
+          state.y = platform.y - state.h;
+          state.vy = 0;
+          state.grounded = true;
+        }
+      });
+
+      if(state.x < 0) state.x = 0;
+      if((state.x + state.w) > canvas.width) state.x = canvas.width - state.w;
+      if(state.y > canvas.height + 24){
+        resetPlayer();
+      }
+
+      if(intersects(state, goal)){
+        wonAt = performance.now();
+      }
+    }
+
+    function draw(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#0f2742';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+      for(let x = 0; x < canvas.width; x += 16){
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = '#2b4d7e';
+      platforms.forEach((platform) => {
+        ctx.fillRect(platform.x, platform.y, platform.w, platform.h);
+      });
+
+      ctx.fillStyle = '#ffd95f';
+      ctx.fillRect(goal.x, goal.y, goal.w, goal.h);
+
+      ctx.fillStyle = '#d7f2ff';
+      ctx.fillRect(state.x, state.y, state.w, state.h);
+
+      if(wonAt){
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px Poppins, sans-serif';
+        ctx.fillText('Goal!', 108, 40);
+      }
+    }
+
+    function frame(){
+      update();
+      draw();
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  initMiniPlatformer();
 
   // expose a tiny API: programLoaded() returns a value (seed) and sets theme accent
   window.programLoaded = function(){
