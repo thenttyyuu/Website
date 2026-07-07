@@ -484,15 +484,6 @@ a {
     background: var(--neon-green);
 }
 
-.pong-finish {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    opacity: 0;
-}
 
 .interest-card[data-effect="computer"].playing .pong-left {
     animation: pongPaddleLeft 2.3s linear both;
@@ -506,9 +497,6 @@ a {
     animation: pongBallPlay 2.3s linear both;
 }
 
-.interest-card[data-effect="computer"].playing .pong-finish {
-    animation: pongEndFlash 2.3s ease both;
-}
 
 @keyframes pongPaddleLeft {
     0%, 100% { transform: translateY(-14px); }
@@ -533,11 +521,6 @@ a {
     100% { transform: translate(210px, -2px); opacity: 0; }
 }
 
-@keyframes pongEndFlash {
-    0%, 82% { opacity: 0; }
-    88%, 96% { opacity: 1; }
-    100% { opacity: 0; }
-}
 
 /* machine learning */
 .ml-path {

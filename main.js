@@ -175,9 +175,7 @@
       'hanging-out': 2400
     };
 
-    const effectCooldowns = {
-      snowboarding: 2800
-    };
+    const effectCooldownBuffer = 700;
 
     const lastTriggered = new Map();
     const timers = new WeakMap();
@@ -186,12 +184,12 @@
       const effect = card.dataset.effect;
       if(!effect) return;
 
+      const duration = effectDurations[effect] || 1800;
+      const cooldown = duration + effectCooldownBuffer;
       const now = performance.now();
-      const cooldown = effectCooldowns[effect] || 0;
       const previous = lastTriggered.get(effect) || -Infinity;
       if((now - previous) < cooldown) return;
 
-      const duration = effectDurations[effect] || 1800;
       lastTriggered.set(effect, now);
 
       card.classList.remove('playing');
