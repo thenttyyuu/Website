@@ -240,7 +240,7 @@
         const robotTravel = Math.round(Math.max(170, width + 46));
         const walkTravel = Math.round(Math.max(165, width + 38));
         const boardWidth = Math.round(width * 0.8);
-        const pongReach = Math.max(100, boardWidth - 16);
+        const pongTravel = Math.max(100, boardWidth - 32);
 
         visual.style.setProperty('--travel-full', `${travelFull}px`);
         visual.style.setProperty('--travel-mid', `${travelMid}px`);
@@ -252,11 +252,7 @@
         visual.style.setProperty('--walk-quarter', `${Math.round(walkTravel * 0.25)}px`);
         visual.style.setProperty('--walk-half', `${Math.round(walkTravel * 0.5)}px`);
         visual.style.setProperty('--walk-three-quarter', `${Math.round(walkTravel * 0.75)}px`);
-        visual.style.setProperty('--pong-x1', `${Math.round(pongReach * 0.34)}px`);
-        visual.style.setProperty('--pong-x2', `${Math.round(pongReach * 0.7)}px`);
-        visual.style.setProperty('--pong-x3', `${Math.round(pongReach * 0.47)}px`);
-        visual.style.setProperty('--pong-x4', `${Math.round(pongReach * 0.9)}px`);
-        visual.style.setProperty('--pong-x5', `${Math.round(pongReach)}px`);
+        visual.style.setProperty('--pong-travel', `${pongTravel}px`);
       });
     }
 
