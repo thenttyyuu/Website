@@ -409,24 +409,81 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 .snowboard-trail {
     left: 10%;
     right: 10%;
-    top: 60%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-    opacity: 0.25;
+    top: 61%;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent 0%, rgba(198, 236, 255, 0.12) 14%, rgba(235, 247, 255, 0.86) 50%, rgba(198, 236, 255, 0.12) 86%, transparent 100%);
+    opacity: 0;
+    transform: scaleX(0.3);
+    transform-origin: right center;
+    filter: blur(0.15px);
 }
 
 .snowboard-rider {
-    width: 52px;
-    height: 18px;
-    top: 52%;
+    width: 44px;
+    height: 40px;
+    top: 34%;
     left: calc(100% + 8px);
-    border-radius: 40px;
-    background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
-    box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+    transform-origin: 50% 90%;
+}
+
+.snowboard-head {
+    width: 9px;
+    height: 9px;
+    top: 2px;
+    left: 18px;
+    border-radius: 50%;
+    background: #f5d2b3;
+    box-shadow: 0 0 0 1px rgba(7, 16, 33, 0.45);
+}
+
+.snowboard-body {
+    width: 20px;
+    height: 17px;
+    top: 11px;
+    left: 12px;
+    border-radius: 8px 8px 6px 6px;
+    background: linear-gradient(180deg, #ffd166 0%, #ef476f 100%);
+}
+
+.snowboard-body::before,
+.snowboard-body::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 11px;
+    bottom: -9px;
+    border-radius: 4px;
+    background: #1f2b45;
+}
+
+.snowboard-body::before {
+    left: 3px;
+    transform: rotate(16deg);
+}
+
+.snowboard-body::after {
+    right: 3px;
+    transform: rotate(-18deg);
+}
+
+.snowboard-board {
+    width: 32px;
+    height: 6px;
+    left: 6px;
+    bottom: 3px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #e8eef7 0%, #9bc7ff 48%, #6fdcc9 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.28);
 }
 
 .interest-card[data-effect="snowboarding"].playing .snowboard-rider {
     animation: snowboardRide 1.9s linear both;
+}
+
+.interest-card[data-effect="snowboarding"].playing .snowboard-trail {
+    animation: snowboardTrail 1.9s ease-out both;
 }
 
 @keyframes snowboardRide {
@@ -435,6 +492,13 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     50% { transform: translateX(calc(-1 * (var(--travel-mid) + 25px))) translateY(2px) rotate(8deg); }
     80% { transform: translateX(calc(-1 * var(--travel-end))) translateY(-25px) rotate(15deg); }
     100% { transform: translateX(calc(-1 * var(--travel-full))) translateY(0) rotate(0deg); }
+}
+
+@keyframes snowboardTrail {
+    0% { opacity: 0; transform: scaleX(0.22); }
+    18% { opacity: 0.72; transform: scaleX(0.46); }
+    55% { opacity: 0.52; transform: scaleX(0.82); }
+    100% { opacity: 0; transform: scaleX(1); }
 }
 
 /* tennis */
