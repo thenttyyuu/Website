@@ -40,7 +40,7 @@
 html,
 body {
     height: 100%;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevents layout overflow when divider borders/elements run wild */
 }
 
 html {
@@ -169,7 +169,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     border-radius: 14px;
     padding: var(--fluid-card-pad);
     margin-bottom: 1rem;
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* Spans across entire grid columns for cohesive padding alignments */
 }
 
 .title-card h1 {
@@ -196,24 +196,25 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 
 .divider {
     position: relative;
-    overflow: visible;
+    overflow: visible; /* Do not hide overflow to prevent text cut-off */
     width: 100vw;
     margin-left: calc(50% - 50vw);
     border-top: 1px solid rgba(10, 247, 251, 0.754);
-    padding: 10px 0;
-    min-height: 4rem;
+    padding: 14px 0; /* Slightly increased padding for breathing room */
+    min-height: 4.5rem; /* Increased min-height to ensure no clipping occurs */
 }
 
 .divider-track {
     position: absolute;
-    inset: 50% 0 auto 0;
-    transform: translateY(-50%);
+    inset: 0; /* Fills the container completely to establish a true center */
     pointer-events: none;
 }
 
 .divider-item {
     position: absolute;
-    top: 0;
+    /* Vertically centers the text by shifting it up by half of its font height, 
+       avoiding conflicts with JavaScript translate3d transforms */
+    top: calc(50% - 0.65em); 
     left: 0;
     display: inline-block;
     font-family: var(--font);
@@ -359,7 +360,11 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     line-height: 1.45;
 }
 
-#interests .info-grid {
+#intro .info-grid,
+#interests .info-grid,
+#projects .info-grid,
+#experience .info-grid,
+#contact .info-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
 }
@@ -920,12 +925,6 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
    Contact form
    ========================================================================== */
 
-#contact .info-grid {
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
-    gap: 1rem;
-}
-
 #contact .card {
     width: 100%;
 }
@@ -985,9 +984,15 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
    Tesseract / 3D-ish cube
    ========================================================================== */
 
+.tesseract-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .tesseract {
-    width: 240px;
-    height: 240px;
+    width: 140px; /* Scaled down slightly to sit nicely inside card visuals */
+    height: 140px;
     position: relative;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
@@ -1005,33 +1010,33 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 }
 
 .face.f1 {
-    -webkit-transform: translateZ(40px);
-    transform: translateZ(40px);
+    -webkit-transform: translateZ(30px);
+    transform: translateZ(30px);
 }
 
 .face.f2 {
-    -webkit-transform: rotateY(90deg) translateZ(40px);
-    transform: rotateY(90deg) translateZ(40px);
+    -webkit-transform: rotateY(90deg) translateZ(30px);
+    transform: rotateY(90deg) translateZ(30px);
 }
 
 .face.f3 {
-    -webkit-transform: rotateY(180deg) translateZ(40px);
-    transform: rotateY(180deg) translateZ(40px);
+    -webkit-transform: rotateY(180deg) translateZ(30px);
+    transform: rotateY(180deg) translateZ(30px);
 }
 
 .face.f4 {
-    -webkit-transform: rotateY(-90deg) translateZ(40px);
-    transform: rotateY(-90deg) translateZ(40px);
+    -webkit-transform: rotateY(-90deg) translateZ(30px);
+    transform: rotateY(-90deg) translateZ(30px);
 }
 
 .face.f5 {
-    -webkit-transform: rotateX(90deg) translateZ(40px);
-    transform: rotateX(90deg) translateZ(40px);
+    -webkit-transform: rotateX(90deg) translateZ(30px);
+    transform: rotateX(90deg) translateZ(30px);
 }
 
 .face.f6 {
-    -webkit-transform: rotateX(-90deg) translateZ(40px);
-    transform: rotateX(-90deg) translateZ(40px);
+    -webkit-transform: rotateX(-90deg) translateZ(30px);
+    transform: rotateX(-90deg) translateZ(30px);
 }
 
 /* ==========================================================================
@@ -1058,6 +1063,15 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 }
 
 /* ==========================================================================
+   About section custom override
+   ========================================================================== */
+
+#about .info-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 
@@ -1079,7 +1093,8 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
         font-size: 3rem;
     }
 
-    .info-grid {
+    .info-grid,
+    #about .info-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -1156,7 +1171,8 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
         font-size: 2.4rem;
     }
 
-    .info-grid {
+    .info-grid,
+    #about .info-grid {
         grid-template-columns: 1fr;
     }
 

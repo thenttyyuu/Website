@@ -32,35 +32,45 @@
   </nav>
 
   <main class="page-shell">
-    <section id="intro" class="title-card panel">
-      <h1 class="name" id="name">Elwin</h1>
-      <p class="tagline">Quietly coding. Loudly curious.</p>
-      <p class="intro">I'm a casual programmer interested in game development, machine learning, and the occasional perfect tennis serve.</p>
-    </section>
+    <section id="intro" class="panel">
+      <section class="info-grid">
+        <section class="title-card">
+          <h1 class="name" id="name">Elwin</h1>
+          <p class="tagline">Quietly coding. Loudly curious.</p>
+          <p class="intro">I'm a casual programmer interested in game development, machine learning, and the occasional perfect tennis serve.</p>
+        </section>
 
-    <section class="info-grid panel">
-      <article class="card">
-        <h3>Quick Links</h3>
-        <p>Find me online and reach out directly.</p>
-        <div class="links">
-          <a class="weird-btn" href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a>
-          <a class="weird-btn" href="#contact">Email</a>
-        </div>
-      </article>
+        <article class="card feature-card">
+          <div class="feature-copy">
+            <h3>Quick Links</h3>
+            <p>Find me online and reach out directly.</p>
+            <div class="links">
+              <a class="weird-btn" href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a>
+              <a class="weird-btn" href="#contact">Email</a>
+            </div>
+          </div>
+          <div class="feature-visual blank-visual" aria-hidden="true">
+            <div class="blank-screen"></div>
+          </div>
+        </article>
 
-      <article class="card">
-        <h3>Current Focus</h3>
-        <p>Building thoughtful projects and improving with each experiment.</p>
-      </article>
-
-        <div id="tesseract" class="tesseract" aria-hidden>
-          <div class="face f1"></div>
-          <div class="face f2"></div>
-          <div class="face f3"></div>
-          <div class="face f4"></div>
-          <div class="face f5"></div>
-          <div class="face f6"></div>
-        </div>
+        <article class="card feature-card">
+          <div class="feature-copy">
+            <h3>Current Focus</h3>
+            <p>Building thoughtful projects and improving with each experiment.</p>
+          </div>
+          <div class="feature-visual tesseract-visual" aria-hidden="true">
+            <div id="tesseract" class="tesseract">
+              <div class="face f1"></div>
+              <div class="face f2"></div>
+              <div class="face f3"></div>
+              <div class="face f4"></div>
+              <div class="face f5"></div>
+              <div class="face f6"></div>
+            </div>
+          </div>
+        </article>
+      </section>
     </section>
 
     <div class="divider" aria-hidden>
@@ -68,11 +78,11 @@
     </div>
 
     <section id="about" class="panel">
-      <section class="title-card">
-        <h1>About Me</h1>
-        <p>Quiet by nature, focused in action, and always building with intention.</p>
-      </section>
       <section class="info-grid">
+        <section class="title-card">
+          <h1>About Me</h1>
+          <p>Quiet by nature, focused in action, and always building with intention.</p>
+        </section>
         <article class="card">
           <h3>Who I Am</h3>
           <p>Hi — I'm Elwin. I'm a casual programmer into game development and machine learning.</p>
@@ -93,11 +103,11 @@
     </div>
 
     <section id="interests" class="panel">
-      <section class="title-card">
-        <h1>Interests</h1>
-        <p>The things that keep me curious and moving forward.</p>
-      </section>
       <section class="info-grid">
+        <section class="title-card">
+          <h1>Interests</h1>
+          <p>The things that keep me curious and moving forward.</p>
+        </section>
         <article class="card interest-card" data-effect="snowboarding">
           <div class="interest-copy">
             <h3>Snowboarding</h3>
@@ -118,7 +128,7 @@
           <div class="interest-copy">
             <h3>Tennis</h3>
             <p>Quick reflexes, long rallies, and timing every serve just right.</p>
-            <p>Although only played in minor tournements, I believe my skills are there to be able to play at a high level.</p>
+            <p>Although only played in minor tournaments, I believe my skills are there to be able to play at a high level.</p>
           </div>
           <div class="interest-visual tennis-visual" aria-hidden="true">
             <span class="tennis-net"></span>
@@ -131,7 +141,7 @@
           <div class="interest-copy">
             <h3>Computer</h3>
             <p>I like building tools and little games while learning how systems work.</p>
-            <p>They fasinated me with their intricate design and their functionality. Being able to compute and perform tasks at a inhuman level is something to be desired.</p>
+            <p>They fascinated me with their intricate design and their functionality. Being able to compute and perform tasks at an inhuman level is something to be desired.</p>
           </div>
           <div class="interest-visual computer-visual" aria-hidden="true">
             <div class="pong-board">
@@ -146,7 +156,7 @@
           <div class="interest-copy">
             <h3>Machine Learning</h3>
             <p>Testing models and data ideas, especially when they connect to games.</p>
-            <p>It is like watching the evolution of a creature, non stop improvment from the last generation.</p>
+            <p>It is like watching the evolution of a creature, non-stop improvement from the last generation.</p>
           </div>
           <div class="interest-visual ml-visual" aria-hidden="true">
             <span class="ml-path"></span>
@@ -158,7 +168,7 @@
           <div class="interest-copy">
             <h3>Games</h3>
             <p>Game feel, mechanics, and design loops always pull me in.</p>
-            <p>Strategy games, fps games, fast paced game, I play them all. It amazes me how they retain your attention to keep you playing.</p>
+            <p>Strategy games, fps games, fast-paced games, I play them all. It amazes me how they retain your attention to keep you playing.</p>
           </div>
           <div class="interest-visual games-visual" aria-hidden="true">
             <span class="games-track"></span>
@@ -170,7 +180,7 @@
           <div class="interest-copy">
             <h3>Hanging Out</h3>
             <p>Spending time with friends helps me reset and come back sharper.</p>
-            <p>Friends are a must if you want connections or just want someone to talk to. </p>
+            <p>Friends are a must if you want connections or just want someone to talk to.</p>
           </div>
           <div class="interest-visual hangout-visual" aria-hidden="true">
             <div class="hangout-scene">
@@ -190,11 +200,11 @@
     </div>
 
     <section id="projects" class="panel">
-      <section class="title-card">
-        <h1>Projects</h1>
-        <p>Things I am building, testing, and improving.</p>
-      </section>
       <section class="info-grid">
+        <section class="title-card">
+          <h1>Projects</h1>
+          <p>Things I am building, testing, and improving.</p>
+        </section>
         <article class="project-card feature-card">
           <div class="feature-copy">
             <h3>This Site</h3>
@@ -237,11 +247,11 @@
     </div>
 
     <section id="experience" class="panel">
-      <section class="title-card">
-        <h1>Professional Experience</h1>
-        <p>Highlights and milestones from my work journey.</p>
-      </section>
       <section class="info-grid">
+        <section class="title-card">
+          <h1>Professional Experience</h1>
+          <p>Highlights and milestones from my work journey.</p>
+        </section>
         <article class="card feature-card experience-card">
           <div class="feature-copy">
             <h3>Current Stage</h3>
@@ -279,37 +289,47 @@
     </div>
 
     <section id="contact" class="panel">
-      <section class="title-card">
-        <h1>Contact</h1>
-        <p>Send a message, or connect through GitHub.</p>
-      </section>
       <section class="info-grid">
-        <article class="card">
-          <h3>Links</h3>
-          <p>
-            <a href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a><br>
-            <a href="mailto:elwinzhang.ez@gmail.com">elwinzhang.ez@gmail.com</a>
-          </p>
+        <section class="title-card">
+          <h1>Contact</h1>
+          <p>Send a message, or connect through GitHub.</p>
+        </section>
+        <article class="card feature-card">
+          <div class="feature-copy">
+            <h3>Links</h3>
+            <p>
+              <a href="https://github.com/thenttyyuu" target="_blank" rel="noopener">GitHub</a><br>
+              <a href="mailto:elwinzhang.ez@gmail.com">elwinzhang.ez@gmail.com</a>
+            </p>
+          </div>
+          <div class="feature-visual blank-visual" aria-hidden="true">
+            <div class="blank-screen"></div>
+          </div>
         </article>
-        <article class="card">
-          <h3>Send a Message</h3>
-          <form
-            id="contactForm"
-            class="contact-form"
-            action="https://formspree.io/f/mykqpgzr"
-            method="POST"
-          >
-            <label>
-              Your email:
-              <input type="email" name="email" required>
-            </label>
-            <label>
-              Your message:
-              <textarea name="message" required></textarea>
-            </label>
-            <button type="submit">Send</button>
-            <p id="contactFormStatus" aria-live="polite"></p>
-          </form>
+        <article class="card feature-card">
+          <div class="feature-copy">
+            <h3>Send a Message</h3>
+            <form
+              id="contactForm"
+              class="contact-form"
+              action="https://formspree.io/f/mykqpgzr"
+              method="POST"
+            >
+              <label>
+                Your email:
+                <input type="email" name="email" required>
+              </label>
+              <label>
+                Your message:
+                <textarea name="message" required></textarea>
+              </label>
+              <button type="submit">Send</button>
+              <p id="contactFormStatus" aria-live="polite"></p>
+            </form>
+          </div>
+          <div class="feature-visual blank-visual" aria-hidden="true">
+            <div class="blank-screen"></div>
+          </div>
         </article>
       </section>
     </section>
