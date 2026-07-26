@@ -360,12 +360,11 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     line-height: 1.45;
 }
 
-#intro .info-grid,
 #interests .info-grid,
 #projects .info-grid,
 #experience .info-grid,
 #contact .info-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 3fr;
     gap: 1rem;
 }
 
@@ -811,7 +810,6 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 
 .feature-card {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
     align-items: center;
     gap: 1.2rem;
     min-height: var(--fluid-card-min-height);
@@ -991,8 +989,9 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 }
 
 .tesseract {
-    width: 140px; /* Scaled down slightly to sit nicely inside card visuals */
-    height: 140px;
+    /* Slightly larger to fill available visual space while staying responsive */
+    width: clamp(140px, 22vw, 200px);
+    height: clamp(140px, 22vw, 200px);
     position: relative;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
@@ -1010,33 +1009,61 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 }
 
 .face.f1 {
-    -webkit-transform: translateZ(30px);
-    transform: translateZ(30px);
+    -webkit-transform: translateZ(40px);
+    transform: translateZ(40px);
 }
 
 .face.f2 {
-    -webkit-transform: rotateY(90deg) translateZ(30px);
-    transform: rotateY(90deg) translateZ(30px);
+    -webkit-transform: rotateY(90deg) translateZ(40px);
+    transform: rotateY(90deg) translateZ(40px);
 }
 
 .face.f3 {
-    -webkit-transform: rotateY(180deg) translateZ(30px);
-    transform: rotateY(180deg) translateZ(30px);
+    -webkit-transform: rotateY(180deg) translateZ(40px);
+    transform: rotateY(180deg) translateZ(40px);
 }
 
 .face.f4 {
-    -webkit-transform: rotateY(-90deg) translateZ(30px);
-    transform: rotateY(-90deg) translateZ(30px);
+    -webkit-transform: rotateY(-90deg) translateZ(40px);
+    transform: rotateY(-90deg) translateZ(40px);
 }
 
 .face.f5 {
-    -webkit-transform: rotateX(90deg) translateZ(30px);
-    transform: rotateX(90deg) translateZ(30px);
+    -webkit-transform: rotateX(90deg) translateZ(40px);
+    transform: rotateX(90deg) translateZ(40px);
 }
 
 .face.f6 {
-    -webkit-transform: rotateX(-90deg) translateZ(30px);
-    transform: rotateX(-90deg) translateZ(30px);
+    -webkit-transform: rotateX(-90deg) translateZ(40px);
+    transform: rotateX(-90deg) translateZ(40px);
+}
+
+/* Keep tesseract reasonable on narrow viewports */
+@media (max-width: 520px) {
+    .tesseract {
+        width: 140px;
+        height: 140px;
+    }
+}
+
+/* ==========================================================================
+   Tesseract Card Column
+   ========================================================================== */
+
+.tesseract-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--fluid-visual-height);
+}
+
+.tesseract-card .tesseract-visual {
+    width: 120%;
+    height: 120%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 /* ==========================================================================
@@ -1102,7 +1129,7 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
 @media (max-width: 760px) {
     :root {
         --fluid-text: clamp(1.02rem, 0.96rem + 0.7vw + 0.24vh, 1.24rem);
-        --fluid-small-text: clamp(1rem, 0.93rem + 0.58vw + 0.2vh, 1.18rem);
+        --fluid-small-text: clamp(1rem, 0.93rem + 0.58vw + 0.24vh, 1.18rem);
         --fluid-h3: clamp(1.2rem, 1.05rem + 0.8vw + 0.22vh, 1.6rem);
         --fluid-card-pad: clamp(1.15rem, 0.95rem + 1.2vw + 0.6vh, 1.7rem);
         --fluid-card-min-height: clamp(186px, 22vh, 300px);
