@@ -147,15 +147,24 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     color: #e6eef8;
     background: rgba(255, 255, 255, 0.04);
     font-weight: 600;
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
 }
 
 .nav-btn:hover {
-    filter: brightness(1.15);
+    transform: translateY(2px);
+    border-color: rgba(0, 255, 156, 0.45);
+    background: rgba(0, 255, 156, 0.08);
+    box-shadow: 0 10px 18px rgba(0, 255, 156, 0.14);
 }
 
 .nav-btn.active {
-    border-color: rgba(0, 255, 156, 0.6);
-    box-shadow: 0 0 12px rgba(0, 255, 156, 0.16);
+    color: #f2fff8;
+    border-color: rgba(0, 255, 156, 0.95);
+    background: rgba(0, 255, 157, 0.103);
+    outline: 2px solid rgba(0, 119, 255, 0.95);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px rgba(0, 255, 156, 0.85), 0 0 26px rgba(0, 157, 255, 0.5);
+    text-shadow: 0 0 8px rgba(0, 255, 156, 0.4);
 }
 
 .page-shell {
@@ -348,6 +357,26 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
+.title-card,
+.card,
+.project-card,
+.feature-visual,
+.interest-visual {
+    transition: transform 190ms ease, border-color 190ms ease, box-shadow 190ms ease, background-color 190ms ease;
+}
+
+@media (hover: hover) {
+    .title-card:hover,
+    .card:hover,
+    .project-card:hover,
+    .feature-visual:hover,
+    .interest-visual:hover {
+        transform: translateY(-3px);
+        border-color: rgba(0, 255, 156, 0.4);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.32), 0 0 18px rgba(0, 255, 156, 0.18);
+    }
+}
+
 .card h3 {
     margin: 0 0 0.5rem 0;
     font-size: var(--fluid-h3);
@@ -400,9 +429,15 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     --walk-three-quarter: 188px;
     --pong-travel: 178px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    background: radial-gradient(circle at 50% 40%, rgba(0, 212, 255, 0.08), transparent 70%),
-        rgba(7, 16, 33, 0.9);
+    border: 2px solid rgba(0, 212, 255, 0.26);
+    background:
+        radial-gradient(circle at 16% 18%, rgba(124, 255, 178, 0.18), transparent 42%),
+        radial-gradient(circle at 84% 80%, rgba(214, 139, 255, 0.14), transparent 46%),
+        linear-gradient(180deg, rgba(11, 25, 47, 0.98), rgba(6, 14, 29, 0.96));
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+        inset 0 0 24px rgba(0, 184, 255, 0.1),
+        0 10px 18px rgba(0, 0, 0, 0.25);
     overflow: hidden;
 }
 
@@ -1233,7 +1268,47 @@ a:focus {
     to { opacity: 1; transform: none; }
 }
 
+.scroll-fade {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 500ms ease, transform 500ms ease;
+    will-change: opacity, transform;
+}
+
+.scroll-fade.in-view {
+    opacity: 1;
+    transform: none;
+}
+
 .panel,
 .hero-left {
     animation: fadeUp 0.6s ease both;
 }
+
+/* Responsive image helpers - prevents images from breaking layout when imported */
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    /* ensure images scale within containers and preserve aspect ratio */
+    object-fit: contain;
+}
+
+/* Optional frame that preserves an aspect ratio while allowing the image to cover the area */
+.image-frame {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--panel);
+}
+
+.image-frame img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover; /* crops to fill the frame while preserving aspect */
+}
+
+/* helper to center images */
+.responsive-image--center { display: block; margin: 0 auto; }

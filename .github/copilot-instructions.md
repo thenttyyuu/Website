@@ -1,40 +1,88 @@
-# Copilot instructions for this repository
+# Copilot Instructions for Elwin's Portfolio Site
 
-## Build, test, and lint commands
+## Architecture Overview
 
-This repository is a static site with no package manager manifest and no configured build, test, or lint tooling.
+This is a **vanilla HTML/CSS/JavaScript single-page portfolio**—no build tools, no frameworks, no dependencies. The entire site is self-contained and renders directly in the browser.
 
-- **Build:** none configured
-- **Test:** none configured (no test runner or test files)
-- **Lint:** none configured
-- **Single-test command:** not available (no test framework configured)
+### File Structure
+- **index.html** - Main document structure; contains all page sections (intro, about, interests, projects, experience, contact) with semantic HTML and ARIA labels for accessibility
+- **style.css** - Complete visual design with:
+  - CSS custom properties for theming (colors, spacing, animations)
+  - Fluid typography using `clamp()` for responsive scaling
+  - Grid-based card layouts
+  - Interactive animations (divider scrolling, interest card effects, game canvas)
+- **main.js** - Interactive features bundled in a single IIFE (immediately invoked function expression):
+  - Divider ticker (horizontally scrolling repeating text)
+  - Mobile menu toggle with accessibility
+  - Contact form integration (Formspree)
+  - Interest card animations with cooldown throttling
+  - Mini 2D fly-catch game (Canvas API)
+  - Cursor-reactive tesseract rotation
+  - Theme color randomization on load
 
-Deployment is handled by GitHub Actions: `.github/workflows/deploy.yaml` publishes the repository root to GitHub Pages on pushes to `master`.
+### Design System
+- **Colors**: Dark cyberpunk theme with three accent colors (neon green, blue, purple) randomly selected per session
+- **Typography**: Poppins font with fluid sizing (scales with viewport)
+- **Spacing**: CSS variable-based padding using `clamp()` for responsive scaling
+- **Cards**: Grid-based layout with consistent visual hierarchy
 
-## High-level architecture
+## Key Conventions
 
-- The app is a **single static page** (`index.html`) styled by `style.css` and behavior-driven by `main.js`.
-- `index.html` is organized into anchored sections (`#intro`, `#about`, `#interests`, `#projects`, `#experience`, `#contact`) linked by the fixed top nav.
-- `style.css` contains:
-  - global theme tokens and fluid sizing in `:root` custom properties
-  - section/card layout systems (`.panel`, `.info-grid`, `.feature-card`, responsive breakpoints)
-  - animation keyframes and visual components for interest/project cards
-- `main.js` is an IIFE that initializes independent UI modules:
-  - divider ticker generation/animation for each `.divider`
-  - cursor-reactive CSS variable updates and tesseract tilt
-  - mobile menu toggle (`body.menu-open`)
-  - async contact form submission to Formspree (`#contactForm`)
-  - hover-triggered interest animations (`data-effect` contract + `.playing` class)
-  - mini fly canvas game (`#miniFlyCanvas`)
-  - one-time theme accent randomization (`window.programLoaded`)
+### JavaScript Patterns
+- **Namespace isolation**: All code runs in a single IIFE to avoid global pollution
+- **State management**: Divider state is tracked in a `dividerStates` array; effect cooldowns use `WeakMap` and `Map`
+- **Event handling**: Prefer `addEventListener` with named functions for clarity; use `preventDefault()` for forms
+- **Canvas API**: DPI-aware scaling with `devicePixelRatio` for crisp rendering on high-DPI displays
+- **Performance**: 
+  - `requestAnimationFrame` for smooth 60fps animations
+  - Throttle cooldowns on effects (700ms buffer after animation)
+  - Rebalance divider items on each frame to cleanup offscreen elements
 
-## Key conventions
+### CSS Conventions
+- **Fluid sizing**: Use `clamp()` for responsive scaling instead of media queries where possible
+- **Custom properties**: Define all colors, spacing, and animation values as CSS variables at `:root`
+- **Animation timing**: Match CSS animation duration with JavaScript timeout for consistency (e.g., `effectDurations` in JS)
+- **Accessibility**: Use `aria-label`, `aria-expanded`, `aria-live` for interactive components
 
-- **HTML/CSS/JS selector contracts are strict.** JS relies on specific IDs/classes (`#mobileMenuToggle`, `#mainNavLinks`, `#contactForm`, `#contactFormStatus`, `.divider`, `.interest-card[data-effect]`, `#miniFlyCanvas`). Renaming requires coordinated updates across files.
-- **Interest-card animation wiring uses `data-effect` keys.** Keys in HTML must match:
-  1. `effectDurations` keys in `main.js`
-  2. CSS selectors like `.interest-card[data-effect="..."].playing ...`
-  3. CSS custom properties populated by `syncEffectMetrics()`
-- **Animation sizing is CSS-variable driven at runtime.** `main.js` computes travel distances from each `.interest-visual` width and writes custom properties (for example `--tennis-travel`, `--robot-travel`, `--pong-travel`). Keep this pattern when adding or changing motion paths.
-- **Dividers are data-driven from inline text nodes.** Each `.divider` starts with a `<span data-text="...">`; JS removes it, builds `.divider-track` + repeated `.divider-item`s, and animates left/right by divider index.
-- **Responsive behavior is centralized in CSS breakpoints.** Layout changes are handled at `max-width: 900px`, `760px`, and `520px`; JS only handles state toggles (for example, mobile menu open/close) and metric recalculation on resize.
+### HTML Conventions
+- **Semantic markup**: Use `<section>`, `<article>`, `<nav>`, `<main>` appropriately
+- **Form accessibility**: Link all `<input>` and `<textarea>` with `<label>` elements; include `required` attributes
+- **Data attributes**: Use `data-*` attributes for JavaScript hooks (e.g., `data-effect`, `data-text`)
+
+## Development Notes
+
+### No Build Tools Required
+This site is production-ready as-is. Simply open `index.html` in a browser—no npm, no bundler, no compilation.
+
+### When Modifying Interactions
+- **Divider ticker**: Adjust `dividerSpeed` constant (px/second) and check `initDividerTicker()` logic
+- **Interest card effects**: Update `effectDurations` object to match new CSS animation durations; ensure `effectCooldownBuffer` provides adequate spacing
+- **Mini fly game**: Modify fly speed, canvas size calculations, or scoring logic in `initMiniFlyGame()`
+- **Theme colors**: Add or modify colors in `:root` CSS variables; randomization happens in `window.programLoaded()`
+
+### When Modifying Styles
+- Keep all responsive behavior in CSS `clamp()` rather than JavaScript media query listeners
+- Ensure animation durations in CSS match JavaScript timeout values for seamless UX
+- Update CSS variable calculations in `syncEffectMetrics()` when visual element sizes change
+
+### Mobile Considerations
+- Mobile menu is hidden by default; toggled with `mobileMenuToggle` button above 760px viewport width
+- Touch events on canvas game use `touchstart` with `preventDefault()` to avoid scroll interference
+- All text scaling and card spacing respond fluidly to viewport size
+
+### Form Integration
+Contact form posts to Formspree (`https://formspree.io/f/mykqpgzr`). Update the `action` attribute in the form if changing email providers.
+
+## Testing & Verification
+
+There are no automated tests. Verify changes manually by:
+1. Opening `index.html` in a browser (desktop and mobile)
+2. Testing all interactive features:
+   - Navigation menu (desktop and mobile)
+   - Divider scrolling (both directions)
+   - Interest card hover animations
+   - Mini fly game (click/tap to play)
+   - Contact form submission
+   - Cursor-reactive tesseract rotation
+3. Checking responsive behavior at breakpoints (760px mobile threshold)
+4. Validating HTML with a validator (e.g., https://validator.w3.org/)

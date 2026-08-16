@@ -5,6 +5,55 @@
  const tesseract = document.getElementById('tesseract');
  const dividerSpeed = 30; // px/second, fixed for all dividers
   const dividerStates = [];
+  const scrollFadeState = {
+    boxes: [],
+    pendingTarget: null,
+    pendingBoxes: [],
+    waitingForNavArrival: false,
+    navDelayTimer: null
+  };
+
+  function isBoxVisibleEnough(box){
+    const rect = box.getBoundingClientRect();
+    const visiblePx = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+    const ratio = visiblePx / Math.max(1, rect.height);
+    return ratio >= 0.16;
+  }
+
+  function prepareNavFadeDelay(targetSection){
+    if(!targetSection || !scrollFadeState.boxes.length) return;
+
+    if(scrollFadeState.navDelayTimer){
+      clearTimeout(scrollFadeState.navDelayTimer);
+      scrollFadeState.navDelayTimer = null;
+    }
+
+    const targetBoxes = scrollFadeState.boxes.filter((box) => targetSection.contains(box));
+    if(!targetBoxes.length) return;
+
+    const distance = Math.abs(targetSection.getBoundingClientRect().top);
+    const delayMs = Math.round(Math.max(120, Math.min(950, distance * 0.25)));
+
+    scrollFadeState.pendingTarget = targetSection;
+    scrollFadeState.pendingBoxes = targetBoxes;
+    scrollFadeState.waitingForNavArrival = true;
+
+    targetBoxes.forEach((box) => {
+      box.classList.remove('in-view');
+    });
+
+    scrollFadeState.navDelayTimer = setTimeout(() => {
+      scrollFadeState.waitingForNavArrival = false;
+      scrollFadeState.pendingTarget = null;
+      scrollFadeState.pendingBoxes.forEach((box) => {
+        if(isBoxVisibleEnough(box)){
+          box.classList.add('in-view');
+        }
+      });
+      scrollFadeState.pendingBoxes = [];
+      scrollFadeState.navDelayTimer = null;
+    }, delayMs);
+  }
 
   function makeDividerItem(text){
     const item = document.createElement('span');
@@ -137,6 +186,97 @@
     nameEl.addEventListener('mouseleave', ()=>{ nameEl.style.transform = ''; });
   }
 
+  function smoothScrollToHashLink(link, event, options = {}){
+    const targetSelector = link.getAttribute('href');
+    if(!targetSelector || !targetSelector.startsWith('#')) return false;
+
+    const target = document.querySelector(targetSelector);
+    if(!target) return false;
+
+    event.preventDefault();
+    if(options.delayFadeUntilArrival){
+      prepareNavFadeDelay(target);
+    }
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.history.replaceState(null, '', targetSelector);
+    return true;
+  }
+
+  function setActiveNavLink(clickedLink){
+    const navLinks = document.querySelectorAll('#mainNavLinks .nav-btn');
+    navLinks.forEach((navLink) => {
+      navLink.classList.toggle('active', navLink === clickedLink);
+    });
+  }
+
+  function setActiveNavLinkByHash(){
+    const currentHash = window.location.hash || '#intro';
+    const matchingLink = document.querySelector(`#mainNavLinks .nav-btn[href="${currentHash}"]`);
+    if(matchingLink){
+      setActiveNavLink(matchingLink);
+    }
+  }
+
+  function initNavScrollTracking(){
+    const navLinks = Array.from(document.querySelectorAll('#mainNavLinks .nav-btn[href^="#"]'));
+    if(!navLinks.length) return;
+
+    const sections = navLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter((section) => section instanceof HTMLElement);
+    if(!sections.length) return;
+
+    let ticking = false;
+    let activeSectionId = '';
+
+    function updateActiveByScroll(){
+      const topBar = document.querySelector('.top-bar');
+      const topBarHeight = topBar ? topBar.offsetHeight : 0;
+      const markerY = topBarHeight + 28;
+      const visibleSection = sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= markerY && rect.bottom > markerY;
+      });
+
+      let activeSection = visibleSection || sections[0];
+      if(!visibleSection){
+        if(markerY < sections[0].getBoundingClientRect().top){
+          activeSection = sections[0];
+        } else {
+          for(let index = sections.length - 1; index >= 0; index -= 1){
+            if(sections[index].getBoundingClientRect().top <= markerY){
+              activeSection = sections[index];
+              break;
+            }
+          }
+        }
+      }
+
+      const activeLink = navLinks.find((link) => link.getAttribute('href') === `#${activeSection.id}`);
+      if(activeLink){
+        setActiveNavLink(activeLink);
+      }
+
+      if(activeSectionId !== activeSection.id){
+        activeSectionId = activeSection.id;
+        window.history.replaceState(null, '', `#${activeSectionId}`);
+      }
+    }
+
+    function requestUpdate(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateActiveByScroll();
+        ticking = false;
+      });
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    requestUpdate();
+  }
+
   function initMobileMenu(){
     const toggle = document.getElementById('mobileMenuToggle');
     const navLinks = document.getElementById('mainNavLinks');
@@ -161,7 +301,15 @@
     });
 
     navLinks.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => closeMenu());
+      link.addEventListener('click', (event) => {
+        const handled = smoothScrollToHashLink(link, event, { delayFadeUntilArrival: true });
+        if(!handled){
+          closeMenu();
+          return;
+        }
+        setActiveNavLink(link);
+        closeMenu();
+      });
     });
 
     window.addEventListener('resize', () => {
@@ -172,6 +320,15 @@
   }
 
   initMobileMenu();
+  initNavScrollTracking();
+  setActiveNavLinkByHash();
+  window.addEventListener('hashchange', setActiveNavLinkByHash);
+
+  document.querySelectorAll('.weird-btn[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      smoothScrollToHashLink(link, event);
+    });
+  });
 
   async function postContactForm(event) {
     event.preventDefault();
@@ -293,6 +450,34 @@
   }
 
   initInterestEffects();
+
+  function initScrollFadeIn(){
+    const boxes = document.querySelectorAll('.title-card, .card, .project-card');
+    if(!boxes.length) return;
+
+    boxes.forEach((box) => box.classList.add('scroll-fade'));
+    scrollFadeState.boxes = Array.from(boxes);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const isInDelayedSection = scrollFadeState.waitingForNavArrival &&
+          scrollFadeState.pendingTarget &&
+          scrollFadeState.pendingTarget.contains(entry.target);
+
+        if(entry.isIntersecting && !isInDelayedSection){
+          entry.target.classList.add('in-view');
+        } else {
+          entry.target.classList.remove('in-view');
+        }
+      });
+    }, {
+      threshold: 0.16
+    });
+
+    boxes.forEach((box) => observer.observe(box));
+  }
+
+  initScrollFadeIn();
 
   function initMiniFlyGame(){
     const canvas = document.getElementById('miniFlyCanvas');
