@@ -368,9 +368,9 @@
   }
 
   function initInterestEffects(){
-    const cards = document.querySelectorAll('.interest-card[data-effect]');
+    const cards = document.querySelectorAll('.interest-card[data-effect], .project-animation-card[data-effect]');
     if(!cards.length) return;
-    const visuals = document.querySelectorAll('.interest-visual');
+    const visuals = document.querySelectorAll('.interest-visual, .project-platformer-visual');
 
     const effectDurations = {
       snowboarding: 1900,
@@ -378,7 +378,8 @@
       computer: 2300,
       'machine-learning': 1800,
       games: 2000,
-      'hanging-out': 2400
+      'hanging-out': 2400,
+      'project-platformer': 2400
     };
 
     const effectCooldownBuffer = 700;
@@ -398,6 +399,7 @@
         const walkTravel = Math.round(Math.max(165, width + 38));
         const boardWidth = Math.round(width * 0.8);
         const pongTravel = Math.max(100, boardWidth - 32);
+        const projectPlatformerTravel = Math.round(Math.max(170, width + 40));
 
         visual.style.setProperty('--travel-full', `${travelFull}px`);
         visual.style.setProperty('--travel-mid', `${travelMid}px`);
@@ -410,6 +412,7 @@
         visual.style.setProperty('--walk-half', `${Math.round(walkTravel * 0.5)}px`);
         visual.style.setProperty('--walk-three-quarter', `${Math.round(walkTravel * 0.75)}px`);
         visual.style.setProperty('--pong-travel', `${pongTravel}px`);
+        visual.style.setProperty('--project-platformer-travel', `${projectPlatformerTravel}px`);
       });
     }
 
@@ -446,6 +449,7 @@
 
     cards.forEach((card) => {
       card.addEventListener('mouseenter', () => trigger(card));
+      card.addEventListener('focusin', () => trigger(card));
     });
   }
 

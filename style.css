@@ -913,13 +913,125 @@ body.menu-open .mobile-menu-toggle span:nth-child(3) {
     padding: 6px;
 }
 
-#miniFlyCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
+.project-platformer-visual {
+    position: absolute;
+    inset: 10px;
     border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
     background: linear-gradient(180deg, #091a2e, #0b1220);
-    cursor: crosshair;
+    overflow: hidden;
+}
+
+.platformer-sky-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 18% 20%, rgba(0, 212, 255, 0.24), transparent 56%);
+}
+
+.platformer-mountains {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: 24px;
+    height: 38px;
+    opacity: 0.52;
+    background:
+        linear-gradient(135deg, transparent 40%, rgba(160, 188, 255, 0.34) 40% 60%, transparent 60%) 0 0 / 46px 100% repeat-x,
+        linear-gradient(45deg, transparent 42%, rgba(126, 155, 240, 0.24) 42% 58%, transparent 58%) 18px 0 / 52px 100% repeat-x;
+}
+
+.platformer-ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 24px;
+    background:
+      linear-gradient(180deg, rgba(20, 54, 88, 0.95), rgba(9, 22, 38, 0.98)),
+      repeating-linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.12) 0 8px,
+        transparent 8px 16px
+      );
+}
+
+.platformer-runner,
+.platformer-obstacle {
+    position: absolute;
+}
+
+.platformer-runner {
+    width: 14px;
+    height: 22px;
+    left: 26%;
+    bottom: 24px;
+    border-radius: 4px 4px 2px 2px;
+    background: linear-gradient(180deg, #ffffff, #dbe7ff);
+    box-shadow: 0 0 10px rgba(219, 231, 255, 0.38);
+}
+
+.platformer-runner::before,
+.platformer-runner::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    width: 4px;
+    height: 8px;
+    border-radius: 3px;
+    background: rgba(226, 236, 255, 0.95);
+}
+
+.platformer-runner::before { left: 2px; }
+.platformer-runner::after { right: 2px; }
+
+.platformer-obstacle {
+    width: 10px;
+    height: 16px;
+    left: calc(100% + 12px);
+    bottom: 24px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #9ee9ff, #3ca7d4);
+    box-shadow: 0 0 10px rgba(60, 167, 212, 0.45);
+}
+
+.obstacle-b {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.project-animation-card.playing .platformer-runner {
+    animation: projectRunnerHop 2.4s ease-in-out both;
+}
+
+.project-animation-card.playing .obstacle-a {
+    animation: projectObstacleRunA 2.4s linear both;
+}
+
+.project-animation-card.playing .obstacle-b {
+    animation: projectObstacleRunB 2.4s linear both;
+}
+
+@keyframes projectRunnerHop {
+    0%, 12% { transform: translateY(0); }
+    20% { transform: translateY(-20px); }
+    32% { transform: translateY(0); }
+    45% { transform: translateY(0); }
+    57% { transform: translateY(-14px); }
+    68% { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes projectObstacleRunA {
+    0% { transform: translateX(0); opacity: 0; }
+    8% { opacity: 1; }
+    100% { transform: translateX(calc(-1 * var(--project-platformer-travel))); opacity: 0.9; }
+}
+
+@keyframes projectObstacleRunB {
+    0%, 38% { transform: translateX(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(calc(-1 * var(--project-platformer-travel))); opacity: 0.85; }
 }
 
 /* blank animation area */
